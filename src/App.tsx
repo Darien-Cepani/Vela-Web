@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react'
 import { useTranslation } from 'react-i18next'
 import { gsap, ScrollTrigger, prefersReducedMotion } from './lib/gsap'
 import { useSmoothScroll } from './lib/smooth-scroll'
+import { useIsDesktop } from './lib/use-is-desktop'
 import { Splash } from './components/Splash'
 import { VoyageLine } from './components/VoyageLine'
 import { ClickSpark } from './components/ClickSpark'
@@ -24,6 +25,8 @@ export default function App() {
   useSmoothScroll()
   const { i18n } = useTranslation()
   const root = useRef<HTMLDivElement>(null)
+  // the voyage line is desktop/tablet depth; on phones it just runs under text
+  const showVoyage = useIsDesktop('(min-width: 768px)')
 
   // global scroll-reveal for [data-reveal] elements; re-registers after a language remount
   useGSAP(
@@ -84,7 +87,7 @@ export default function App() {
       <Splash />
       {/* the page sheet scrolls above the fixed footer and lifts away to reveal it */}
       <div className="page-sheet pb-24 md:pb-36">
-        <VoyageLine />
+        {showVoyage && <VoyageLine />}
         <ClickSpark />
         <ClickRipple />
         <Nav />

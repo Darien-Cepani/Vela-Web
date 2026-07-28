@@ -114,23 +114,27 @@
 @layer base {
   html {
     scroll-behavior: auto; /* Lenis owns scrolling */
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: var(--color-cyan-deep) var(--srf);
   }
-  /* brand scrollbar (WebKit) */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--srf);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--color-cyan-deep) 75%, var(--srf));
-    border-radius: 999px;
-    border: 2px solid var(--srf);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-cyan);
+  /* brand scrollbar: fine-pointer devices only, so touch keeps its overlay bars */
+  @media (pointer: fine) {
+    html {
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--color-cyan-deep) var(--srf);
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--srf);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: color-mix(in srgb, var(--color-cyan-deep) 75%, var(--srf));
+      border-radius: 999px;
+      border: 2px solid var(--srf);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-cyan);
+    }
   }
   body {
     @apply bg-surface text-strong font-body antialiased;
@@ -289,14 +293,23 @@
   .glass-refract-deep {
     position: relative;
   }
-  .glass-refract-deep::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    -webkit-backdrop-filter: url(#vela-glass-refraction);
-    backdrop-filter: url(#vela-glass-refraction);
+  /* mobile GPUs: lighter blur, and skip the displacement layer entirely */
+  @media (max-width: 767px) {
+    .glass-refract {
+      -webkit-backdrop-filter: blur(14px) saturate(1.3);
+      backdrop-filter: blur(14px) saturate(1.3);
+    }
+  }
+  @media (min-width: 768px) {
+    .glass-refract-deep::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      -webkit-backdrop-filter: url(#vela-glass-refraction);
+      backdrop-filter: url(#vela-glass-refraction);
+    }
   }
 
   /* React Bits-style StarBorder: a point of light orbiting the pill's edge */

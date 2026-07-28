@@ -44,7 +44,7 @@ export function Services() {
             />
             <div className="relative">
               <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-white/10 shadow-[inset_0_1px_0_rgb(255_255_255/0.12)]"><RiStore2Line size={26} className={`text-cyan ${ICON_CLS}`} /></span>
-              <h3 className="mt-12 text-2xl text-white md:mt-16 md:text-3xl">{t('services.ecom.t')}</h3>
+              <h3 className="mt-8 text-2xl text-white md:mt-16 md:text-3xl">{t('services.ecom.t')}</h3>
               <p className="mt-3 max-w-[46ch] text-mist">{t('services.ecom.b')}</p>
             </div>
             <img
@@ -57,7 +57,7 @@ export function Services() {
 
           <Spotlight data-reveal data-reveal-delay="0.08" className="glass-refract rounded-[22px] border border-hair bg-surface-2/70 p-7 shadow-card md:col-span-5 md:p-10">
             <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-cyan/10 dark:bg-white/[0.06]"><RiGlobalLine size={26} className={`text-accent-ink ${ICON_CLS}`} /></span>
-            <h3 className="mt-12 text-2xl md:mt-16 md:text-3xl">{t('services.web.t')}</h3>
+            <h3 className="mt-8 text-2xl md:mt-16 md:text-3xl">{t('services.web.t')}</h3>
             <p className="mt-3 text-soft">{t('services.web.b')}</p>
           </Spotlight>
 
@@ -74,14 +74,14 @@ export function Services() {
             />
             <div className="relative">
               <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-white/15 shadow-[inset_0_1px_0_rgb(255_255_255/0.2)]"><RiPenNibLine size={26} className={`text-white ${ICON_CLS}`} /></span>
-              <h3 className="mt-12 text-2xl text-white">{t('services.design.t')}</h3>
+              <h3 className="mt-8 text-2xl text-white md:mt-12">{t('services.design.t')}</h3>
               <p className="mt-3 text-white/85">{t('services.design.b')}</p>
             </div>
           </Spotlight>
 
           <Spotlight data-reveal data-reveal-delay="0.07" className="glass-refract rounded-[22px] border border-hair bg-surface-2/70 p-7 shadow-card md:col-span-6 lg:col-span-4">
             <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-cyan/10 dark:bg-white/[0.06]"><RiMovie2Line size={26} className={`text-accent-ink ${ICON_CLS}`} /></span>
-            <h3 className="mt-12 text-2xl">{t('services.content.t')}</h3>
+            <h3 className="mt-8 text-2xl md:mt-12">{t('services.content.t')}</h3>
             <p className="mt-3 text-soft">{t('services.content.b')}</p>
           </Spotlight>
 
@@ -94,7 +94,7 @@ export function Services() {
             style={{ background: 'linear-gradient(180deg, #DFF0F6 0%, #F4F7F8 60%, #CFE4EC 100%)' }}
           >
             <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-cyan/10"><RiCodeSSlashLine size={26} className={`text-cyan-text ${ICON_CLS}`} /></span>
-            <h3 className="mt-12 text-2xl text-ink">{t('services.apps.t')}</h3>
+            <h3 className="mt-8 text-2xl text-ink md:mt-12">{t('services.apps.t')}</h3>
             <p className="mt-3 text-muted">{t('services.apps.b')}</p>
           </Spotlight>
 
@@ -104,7 +104,7 @@ export function Services() {
           >
             <div className="max-w-[52ch]">
               <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-cyan/10 dark:bg-white/[0.06]"><RiArticleLine size={26} className={`text-accent-ink ${ICON_CLS}`} /></span>
-              <h3 className="mt-12 text-2xl md:text-3xl">{t('services.blog.t')}</h3>
+              <h3 className="mt-8 text-2xl md:mt-12 md:text-3xl">{t('services.blog.t')}</h3>
               <p className="mt-3 text-soft">{t('services.blog.b')}</p>
             </div>
             <p className="mt-8 font-display text-xl text-fade md:mt-0 md:text-2xl">

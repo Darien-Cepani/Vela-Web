@@ -65,7 +65,7 @@ export function Meaning() {
               {/* course marker: a cyan bar that raises on hover */}
               <span
                 aria-hidden
-                className="absolute inset-y-8 left-0 w-[3px] origin-center scale-y-0 rounded-full bg-cyan transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-y-100 md:inset-y-10"
+                className="absolute inset-y-8 left-0 w-[3px] origin-center scale-y-100 rounded-full bg-cyan transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:inset-y-10 lg:scale-y-0 lg:group-hover:scale-y-100"
               />
               <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 px-1 md:px-4">
                 <h3 className="font-display text-3xl font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-2 md:text-5xl">

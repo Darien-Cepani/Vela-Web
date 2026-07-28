@@ -111,6 +111,14 @@ export function Nav() {
     else tl.reverse()
   }, [open])
 
+  // the page must not scroll behind the open menu
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.documentElement.style.overflow = ''
+    }
+  }, [open])
+
   const go = (id: string) => {
     setOpen(false)
     scrollToId(id)
