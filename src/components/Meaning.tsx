@@ -44,10 +44,10 @@ export function Meaning() {
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-32">
             <img src={markCyan} alt="" aria-hidden className="h-12 w-auto" />
-            <BlurText className="mt-7 text-4xl sm:text-5xl md:text-6xl">
+            <BlurText className="mt-7 text-3xl sm:text-5xl md:text-6xl">
               {t('meaning.titlePre')}<span className="text-accent-ink">{t('meaning.titleAccent')}</span>{t('meaning.titleEnd')}
             </BlurText>
-            <p className="manifesto mt-7 max-w-[38ch] text-xl leading-relaxed text-strong md:text-2xl">
+            <p className="manifesto mt-7 max-w-[38ch] text-lg leading-relaxed text-strong md:text-2xl">
               {(t('meaning.manifesto') as string).split(' ').map((word, i) => (
                 <span key={i} className="manifesto-word">{word} </span>
               ))}
@@ -68,12 +68,12 @@ export function Meaning() {
                 className="absolute inset-y-8 left-0 w-[3px] origin-center scale-y-100 rounded-full bg-cyan transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:inset-y-10 lg:scale-y-0 lg:group-hover:scale-y-100"
               />
               <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 px-1 md:px-4">
-                <h3 className="font-display text-3xl font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-2 md:text-5xl">
+                <h3 className="font-display text-2xl font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-2 md:text-5xl">
                   {p.word}
                 </h3>
                 <span className="text-[15px] font-bold uppercase tracking-[0.18em] text-accent-ink">{p.means}</span>
               </div>
-              <p className="mt-4 max-w-[52ch] px-1 text-lg leading-relaxed text-soft md:px-4">{p.body}</p>
+              <p className="mt-4 max-w-[52ch] px-1 text-base leading-relaxed text-soft md:px-4 md:text-lg">{p.body}</p>
             </div>
           ))}
         </div>

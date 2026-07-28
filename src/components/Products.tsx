@@ -69,10 +69,10 @@ export function Products() {
     <section id="products" ref={root} className="pt-24 md:pt-40">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-6 lg:px-8">
         <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-fade">{t('products.eyebrow')}</p>
-        <BlurText className="mt-4 max-w-[16ch] text-4xl sm:text-5xl md:text-6xl">
+        <BlurText className="mt-4 max-w-[16ch] text-3xl sm:text-5xl md:text-6xl">
           {t('products.h2pre')}<span className="text-accent-ink">{t('products.h2accent')}</span>.
         </BlurText>
-        <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-soft" data-reveal>
+        <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-soft md:text-lg" data-reveal>
           {t('products.sub')}
         </p>
 
@@ -201,7 +201,7 @@ export function Products() {
                 >
                   <div className="overflow-hidden">
                     <div className="px-5 pb-6">
-                      <h3 className="text-2xl leading-tight text-white">{items[i].claim}</h3>
+                      <h3 className="text-xl leading-tight text-white">{items[i].claim}</h3>
                       <p className="mt-3 text-base leading-relaxed text-mist">{items[i].body}</p>
                       <ul className="mt-5 flex flex-wrap gap-2.5">
                         {items[i].chips.map((c) => (

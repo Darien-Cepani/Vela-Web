@@ -40,8 +40,6 @@ export function Nav() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const headerRef = useRef<HTMLElement>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const menuTl = useRef<gsap.core.Timeline | null>(null)
 
   // entrance: the pill drops in as the splash curtain lifts (runs once, nav survives remounts)
   useGSAP(
@@ -78,39 +76,6 @@ export function Nav() {
     }
   }, [i18n.language])
 
-  // staggered menu choreography: cyan layer sweeps, panel follows, links cascade
-  useGSAP(
-    () => {
-      if (!menuRef.current) return
-      // the container is invisible while closed, so the panels need no CSS pre-positioning:
-      // fromTo owns both endpoints and avoids transform-parsing ambiguity entirely
-      const tl = gsap
-        .timeline({ paused: true, defaults: { ease: 'expo.inOut' } })
-        .set(menuRef.current, { visibility: 'visible', pointerEvents: 'auto' })
-        .fromTo('.sm-pre', { xPercent: 100 }, { xPercent: 0, duration: 0.5, immediateRender: true }, 0)
-        .fromTo('.sm-panel', { xPercent: 100 }, { xPercent: 0, duration: 0.6, immediateRender: true }, 0.1)
-        .fromTo(
-          '.sm-link-inner',
-          { yPercent: 130 },
-          { yPercent: 0, duration: 0.7, stagger: 0.07, ease: 'expo.out' },
-          0.42,
-        )
-        .fromTo('.sm-foot', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'expo.out' }, 0.62)
-      menuTl.current = tl
-      return () => {
-        menuTl.current = null
-      }
-    },
-    { scope: menuRef, dependencies: [i18n.language], revertOnUpdate: true },
-  )
-
-  useEffect(() => {
-    const tl = menuTl.current
-    if (!tl) return
-    if (open) tl.play()
-    else tl.reverse()
-  }, [open])
-
   // the page must not scroll behind the open menu
   useEffect(() => {
     document.documentElement.style.overflow = open ? 'hidden' : ''
@@ -121,6 +86,8 @@ export function Nav() {
 
   const go = (id: string) => {
     setOpen(false)
+    // release the scroll lock synchronously so the smooth-scroll isn't clamped
+    document.documentElement.style.overflow = ''
     scrollToId(id)
   }
 
@@ -189,36 +156,50 @@ export function Nav() {
         </nav>
       </header>
 
-      {/* staggered mobile menu: cyan sweep, refraction panel, cascading links */}
-      <div ref={menuRef} className="pointer-events-none invisible fixed inset-0 z-30 lg:hidden">
-        <div className="sm-pre absolute inset-y-0 right-0 w-full bg-cyan" />
-        <div className="sm-panel glass-refract glass-refract-deep absolute inset-y-0 right-0 flex w-full flex-col justify-center bg-surface/90 px-8">
-          <div className="flex flex-col gap-5">
-            {LINK_IDS.map((id) => (
-              <div key={id} className="overflow-hidden">
-                <button
-                  onClick={() => go(id)}
-                  className={`sm-link-inner block text-left font-display text-5xl font-semibold will-change-transform ${
-                    active === id ? 'text-accent-ink' : 'text-strong'
-                  }`}
-                >
-                  {t(`nav.${id}`)}
-                </button>
-              </div>
-            ))}
-            <div className="overflow-hidden">
-              <button
-                onClick={() => go('contact')}
-                className="sm-link-inner block text-left font-display text-5xl font-semibold text-accent-ink will-change-transform"
-              >
-                {t('footer.colContact')}
-              </button>
-            </div>
+      {/* staggered mobile menu: cyan sweep, glass panel, cascading links (CSS-driven) */}
+      <div
+        className={`fixed inset-0 z-30 lg:hidden ${
+          open
+            ? 'pointer-events-auto visible'
+            : 'pointer-events-none invisible [transition:visibility_0s_linear_0.7s]'
+        }`}
+      >
+        <div
+          className={`absolute inset-y-0 right-0 w-full bg-cyan transition-transform duration-500 ease-[cubic-bezier(0.83,0,0.17,1)] ${
+            open ? 'translate-x-0 delay-0' : 'translate-x-full delay-100'
+          }`}
+        />
+        <div
+          className={`glass-refract absolute inset-y-0 right-0 flex w-full flex-col justify-center bg-surface/95 px-8 transition-transform duration-500 ease-[cubic-bezier(0.83,0,0.17,1)] ${
+            open ? 'translate-x-0 delay-100' : 'translate-x-full delay-0'
+          }`}
+        >
+          <div className="flex flex-col gap-4">
+            {[...LINK_IDS.map((id) => ({ id, label: t(`nav.${id}`) })), { id: 'contact', label: t('footer.colContact') }].map(
+              (item, i) => (
+                <div key={item.id} className="overflow-hidden">
+                  <button
+                    onClick={() => go(item.id)}
+                    className={`block text-left font-display text-4xl font-semibold transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      open ? 'translate-y-0 opacity-100' : 'translate-y-[115%] opacity-0'
+                    } ${item.id === 'contact' || active === item.id ? 'text-accent-ink' : 'text-strong'}`}
+                    style={{ transitionDelay: open ? `${280 + i * 70}ms` : '0ms' }}
+                  >
+                    {item.label}
+                  </button>
+                </div>
+              ),
+            )}
           </div>
-          <div className="sm-foot mt-12 flex items-center gap-4">
+          <div
+            className={`mt-10 flex items-center gap-4 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+            }`}
+            style={{ transitionDelay: open ? '560ms' : '0ms' }}
+          >
             <button
               onClick={() => go('contact')}
-              className="rounded-full bg-cyan px-8 py-4 text-lg font-bold text-sea active:scale-[0.98]"
+              className="rounded-full bg-cyan px-7 py-3.5 text-base font-bold text-sea active:scale-[0.98]"
             >
               {t('nav.cta')}
             </button>

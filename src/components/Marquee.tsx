@@ -22,7 +22,7 @@ export function Marquee() {
     items.map((item, i) => (
       <span key={item} className="flex items-center gap-12" aria-hidden={hidden || undefined}>
         <span
-          className={`font-display text-2xl font-medium md:text-3xl ${
+          className={`font-display text-xl font-medium md:text-3xl ${
             i % 2 === 0 ? 'text-fade' : 'text-outline'
           }`}
         >

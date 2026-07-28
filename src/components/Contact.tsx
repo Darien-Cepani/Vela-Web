@@ -44,8 +44,8 @@ export function Contact() {
             className="contact-watermark pointer-events-none absolute -right-16 -bottom-20 w-[260px] opacity-15 md:w-[380px]"
           />
           <div className="relative">
-            <BlurText className="text-4xl text-sea sm:text-5xl md:text-7xl">{t('contact.h2')}</BlurText>
-            <p className="mx-auto mt-5 max-w-[40ch] text-lg font-bold text-sea/75 md:text-xl">{t('contact.sub')}</p>
+            <BlurText className="text-3xl text-sea sm:text-5xl md:text-7xl">{t('contact.h2')}</BlurText>
+            <p className="mx-auto mt-5 max-w-[40ch] text-base font-bold text-sea/75 md:text-xl">{t('contact.sub')}</p>
             <div className="mt-9 flex justify-center md:mt-10" data-reveal>
               <Magnetic strength={0.25}>
                 <a

@@ -24,7 +24,7 @@ export function Services() {
   return (
     <section id="services" className="pt-24 md:pt-40">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-6 lg:px-8">
-        <BlurText className="max-w-[20ch] text-4xl sm:text-5xl md:text-6xl">
+        <BlurText className="max-w-[20ch] text-3xl sm:text-5xl md:text-6xl">
           {t('services.h2pre')}<span className="text-accent-ink">{t('services.h2accent')}</span>.
         </BlurText>
 

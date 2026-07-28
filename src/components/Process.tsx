@@ -50,10 +50,10 @@ export function Process() {
   return (
     <section id="process" ref={root} className="pt-24 md:pt-40">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-6 lg:px-8">
-        <BlurText className="max-w-[16ch] text-4xl sm:text-5xl md:text-6xl">
+        <BlurText className="max-w-[16ch] text-3xl sm:text-5xl md:text-6xl">
           {t('process.h2pre')}<span className="text-accent-ink">{t('process.h2accent')}</span>.
         </BlurText>
-        <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-soft" data-reveal>
+        <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-soft md:text-lg" data-reveal>
           {t('process.sub')}
         </p>
 
@@ -83,11 +83,11 @@ export function Process() {
                       : 'lg:col-start-2 lg:row-start-1'
                   }
                 >
-                  <h3 className="font-display text-4xl font-semibold md:text-5xl">
+                  <h3 className="font-display text-3xl font-semibold md:text-5xl">
                     {s.verb}<span className="text-accent-ink">.</span>
                   </h3>
                   <p
-                    className={`mt-3 max-w-[38ch] text-lg leading-relaxed text-soft ${
+                    className={`mt-3 max-w-[38ch] text-base leading-relaxed text-soft md:text-lg ${
                       i % 2 === 0 ? 'lg:ml-auto' : ''
                     }`}
                   >

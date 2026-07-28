@@ -92,7 +92,7 @@ export function Hero() {
           <span className="hero-badge orbit-border inline-flex items-center rounded-full border border-hair bg-white/40 px-4 py-2 text-[12.5px] font-bold uppercase tracking-[0.16em] text-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] backdrop-blur-xl dark:bg-white/[0.06]">
             {t('hero.badge')}
           </span>
-          <h1 className="mt-7 text-[clamp(3rem,12vw,4.2rem)] leading-[1.03] md:text-[clamp(3.8rem,6.6vw,6rem)] md:leading-[1.01]">
+          <h1 className="mt-7 text-[clamp(2.5rem,10.5vw,3.6rem)] leading-[1.05] md:text-[clamp(3.8rem,6.6vw,6rem)] md:leading-[1.01]">
             <span className="line"><span className="line-inner">{t('hero.l1')}</span></span>
             <span className="line">
               <span className="line-inner">
@@ -100,7 +100,7 @@ export function Hero() {
               </span>
             </span>
           </h1>
-          <p className="hero-fade mt-7 max-w-[42ch] text-lg leading-relaxed text-soft md:text-xl">
+          <p className="hero-fade mt-7 max-w-[42ch] text-base leading-relaxed text-soft md:text-xl">
             {t('hero.sub')}
           </p>
           <div className="hero-fade mt-9 flex flex-wrap items-center gap-4">
