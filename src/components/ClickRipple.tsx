@@ -11,12 +11,15 @@ import { prefersReducedMotion } from '../lib/gsap'
  * Fired via the `vela-ripple` CustomEvent; one ring per click.
  */
 
+/** Firefox supports SVG filters via `filter:` but not via `backdrop-filter:`. */
+const IS_GECKO = typeof CSS !== 'undefined' && CSS.supports('-moz-appearance', 'none')
+
 /** Ring displacement map: R/G encode the radial push around a gaussian ring. */
 function makeRingMap(): string {
   const S = 256
   const c = S / 2
   const R = S * 0.25
-  const SIG = S * 0.045
+  const SIG = S * 0.028
   const cv = document.createElement('canvas')
   cv.width = cv.height = S
   const ctx = cv.getContext('2d')!
@@ -62,9 +65,14 @@ export function ClickRipple() {
 
   useEffect(() => {
     if (!active) return
-    const SPEED = 1250 // px/s wavefront
-    const DECAY = 2.1 // strength half-life, wdtyDH-style damping
-    const MAX_SCALE = 55
+    // Firefox fallback: distort <main> itself (nav and footer live outside it);
+    // Chromium keeps the backdrop overlay, which also spares the 3D mark.
+    const mainEl = IS_GECKO ? document.querySelector<HTMLElement>('main') : null
+    if (mainEl) mainEl.style.filter = 'url(#vela-click-ripple)'
+
+    const SPEED = 1000 // px/s wavefront
+    const DECAY = 2.4 // strength half-life, wdtyDH-style damping
+    const MAX_SCALE = 16 // kept small: a passing wave, not a page-warp
     const step = () => {
       const a = anim.current
       const img = feImg.current
@@ -86,7 +94,10 @@ export function ClickRipple() {
       raf.current = requestAnimationFrame(step)
     }
     raf.current = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(raf.current)
+    return () => {
+      cancelAnimationFrame(raf.current)
+      if (mainEl) mainEl.style.filter = ''
+    }
   }, [active])
 
   return (
@@ -100,7 +111,7 @@ export function ClickRipple() {
           <feDisplacementMap ref={feDisp} in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
-      {active && (
+      {active && !IS_GECKO && (
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-30"

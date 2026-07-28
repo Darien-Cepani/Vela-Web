@@ -81,19 +81,26 @@ export const WaterRipples = forwardRef<WaterRipplesHandle, { className?: string 
         gl.compileShader(sh)
         return sh
       }
-      const prog = gl.createProgram()!
-      gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT))
-      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG))
-      gl.linkProgram(prog)
-      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return
-      gl.useProgram(prog)
-      gl.bindVertexArray(gl.createVertexArray())
-      gl.enable(gl.BLEND)
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
-
-      const uTime = gl.getUniformLocation(prog, 'uTime')
-      const uRes = gl.getUniformLocation(prog, 'uRes')
-      const uDrops = gl.getUniformLocation(prog, 'uDrops')
+      let uTime: WebGLUniformLocation | null = null
+      let uRes: WebGLUniformLocation | null = null
+      let uDrops: WebGLUniformLocation | null = null
+      // program setup lives in a function so a restored context can rebuild it
+      const initGL = () => {
+        const prog = gl.createProgram()!
+        gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT))
+        gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG))
+        gl.linkProgram(prog)
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false
+        gl.useProgram(prog)
+        gl.bindVertexArray(gl.createVertexArray())
+        gl.enable(gl.BLEND)
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+        uTime = gl.getUniformLocation(prog, 'uTime')
+        uRes = gl.getUniformLocation(prog, 'uRes')
+        uDrops = gl.getUniformLocation(prog, 'uDrops')
+        return true
+      }
+      if (!initGL()) return
 
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
       const resize = () => {
@@ -118,7 +125,7 @@ export const WaterRipples = forwardRef<WaterRipplesHandle, { className?: string 
         raf = requestAnimationFrame(frame)
       }
       const start = () => {
-        if (!running) {
+        if (!running && !gl.isContextLost()) {
           running = true
           raf = requestAnimationFrame(frame)
         }
@@ -130,7 +137,23 @@ export const WaterRipples = forwardRef<WaterRipplesHandle, { className?: string 
       const io = new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop()))
       io.observe(canvas)
 
+      // survive GPU context loss: pause on lost, rebuild the program on restore
+      const onLost = (e: Event) => {
+        e.preventDefault()
+        stop()
+      }
+      const onRestored = () => {
+        if (initGL()) {
+          resize()
+          start()
+        }
+      }
+      canvas.addEventListener('webglcontextlost', onLost)
+      canvas.addEventListener('webglcontextrestored', onRestored)
+
       return () => {
+        canvas.removeEventListener('webglcontextlost', onLost)
+        canvas.removeEventListener('webglcontextrestored', onRestored)
         stop()
         io.disconnect()
         ro.disconnect()

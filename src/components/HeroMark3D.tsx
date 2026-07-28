@@ -276,9 +276,6 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
   return (
     <div
       ref={holder}
-      role="button"
-      tabIndex={-1}
-      aria-label="Vela mark"
       className={`mark3d-loading group/mark relative flex cursor-pointer items-center justify-center [&.mark3d-loading>canvas]:opacity-0 [&>canvas]:transition-opacity [&>canvas]:duration-700 [&.mark3d-loading>img]:opacity-100 [&>img]:opacity-0 ${className}`}
     >
       <img src={markCyan} alt="" aria-hidden className="absolute w-[58%] transition-opacity duration-700" />
