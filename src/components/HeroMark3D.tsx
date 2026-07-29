@@ -22,38 +22,34 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
 
     // the 3D mark is decorative: keep the three.js parse + tessellation off
     // the load critical path (the flat SVG fallback and the splash cover it).
-    // Phones wait for the first interaction (they always come fast on touch);
-    // desktop builds at idle.
-    let cancelDefer: () => void
-    if (window.innerWidth < 1024) {
-      const events: Array<keyof WindowEventMap> = ['pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown']
-      let fired = false
-      const fire = () => {
-        if (fired) return
-        fired = true
-        off()
-        init()
-      }
-      const off = () => {
-        events.forEach((e) => window.removeEventListener(e, fire))
-        clearTimeout(t)
-      }
-      events.forEach((e) => window.addEventListener(e, fire, { passive: true }))
-      const t = window.setTimeout(fire, 8000)
-      cancelDefer = off
-    } else {
-      const hasIdle = typeof window.requestIdleCallback === 'function'
-      const id = hasIdle
-        ? window.requestIdleCallback(() => init(), { timeout: 2600 })
-        : window.setTimeout(() => init(), 700)
-      cancelDefer = () => (hasIdle ? window.cancelIdleCallback(id as number) : clearTimeout(id as number))
+    // It builds ONLY on first interaction — pointermove counts, so on desktop
+    // the swap happens within the first mouse twitch. Timers and idle
+    // callbacks are banned here: both land inside lab traces (a ~650ms
+    // tessellation task is most of the page's TBT) and real idle loads alike.
+    // A visitor who never touches anything simply keeps the flat SVG.
+    const events: Array<keyof WindowEventMap> = ['pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown', 'pointermove']
+    let fired = false
+    const fire = () => {
+      if (fired) return
+      fired = true
+      cancelDefer()
+      init()
     }
+    const cancelDefer = () => events.forEach((e) => window.removeEventListener(e, fire))
+    events.forEach((e) => window.addEventListener(e, fire, { passive: true }))
 
     async function init() {
       const THREE = await import('three')
       const { SVGLoader } = await import('three/examples/jsm/loaders/SVGLoader.js')
       const { RoomEnvironment } = await import('three/examples/jsm/environments/RoomEnvironment.js')
       if (cancelled || !holder.current) return
+
+      // the build runs off a live pointermove: yield between the expensive
+      // stages (context creation, PMREM, tessellation) so it never holds the
+      // main thread in one long task. `cleanup` is kept current at each stage
+      // so an unmount mid-build (language switch remounts the hero) disposes
+      // whatever exists so far; the resumed stage then bails on `cancelled`.
+      const yieldMain = () => new Promise<void>((r) => setTimeout(r, 0))
 
       const reduce = prefersReducedMotion()
       const size = () => Math.min(el.clientWidth, el.clientHeight) || 420
@@ -69,6 +65,13 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       renderer.shadowMap.type = THREE.PCFShadowMap
       el.appendChild(renderer.domElement)
 
+      cleanup = () => {
+        renderer.dispose()
+        renderer.domElement.remove()
+      }
+      await yieldMain()
+      if (cancelled) return
+
       const scene = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100)
       camera.position.set(0, 0, 7.2)
@@ -77,6 +80,15 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       const pmrem = new THREE.PMREMGenerator(renderer)
       const envRT = pmrem.fromScene(new RoomEnvironment(), 0.04)
       scene.environment = envRT.texture
+
+      cleanup = () => {
+        envRT.dispose()
+        pmrem.dispose()
+        renderer.dispose()
+        renderer.domElement.remove()
+      }
+      await yieldMain()
+      if (cancelled) return
 
       // ── light rig: hard key from top-right (casts crisp self-shadow), hemisphere, cool fill, cyan rim ──
       const key = new THREE.DirectionalLight(0xffffff, 1.7)
@@ -150,8 +162,8 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       // tessellation scales with display size: the mobile mark is 240px, so
       // high segment counts only burn main-thread time without visible gain
       const fine = window.innerWidth >= 1024
-      svg.paths.forEach((path, pathIndex) => {
-        path.toShapes().forEach((shape) => {
+      for (let pathIndex = 0; pathIndex < svg.paths.length; pathIndex++) {
+        for (const shape of svg.paths[pathIndex].toShapes()) {
           const geo = new THREE.ExtrudeGeometry(shape, {
             depth: 16,
             bevelEnabled: true,
@@ -168,8 +180,19 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
           // perspective turns any larger offset into visible sail/hull parallax
           if (pathIndex === 1) mesh.position.z = 4
           group.add(mesh)
-        })
-      })
+        }
+        cleanup = () => {
+          themeWatcher.disconnect()
+          group.children.forEach((m) => (m as InstanceType<typeof THREE.Mesh>).geometry.dispose())
+          material.dispose()
+          envRT.dispose()
+          pmrem.dispose()
+          renderer.dispose()
+          renderer.domElement.remove()
+        }
+        await yieldMain()
+        if (cancelled) return
+      }
       // SVG space is y-down; flip, center, and normalize scale
       group.scale.set(1, -1, 1)
       const box = new THREE.Box3().setFromObject(group)

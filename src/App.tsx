@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { useTranslation } from 'react-i18next'
 import { gsap, ScrollTrigger, prefersReducedMotion } from './lib/gsap'
@@ -11,13 +11,16 @@ import { ClickRipple } from './components/ClickRipple'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
 import { Marquee } from './components/Marquee'
-import { Meaning } from './components/Meaning'
-import { Products } from './components/Products'
-import { Services } from './components/Services'
-import { Process } from './components/Process'
-import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import { glassDisplacementMap } from './lib/glass-map'
+
+// below-the-fold sections stream in right after first paint: the initial
+// hydration task stays small, which is what mobile TBT is made of
+const Meaning = lazy(() => import('./components/Meaning').then((m) => ({ default: m.Meaning })))
+const Products = lazy(() => import('./components/Products').then((m) => ({ default: m.Products })))
+const Services = lazy(() => import('./components/Services').then((m) => ({ default: m.Services })))
+const Process = lazy(() => import('./components/Process').then((m) => ({ default: m.Process })))
+const Contact = lazy(() => import('./components/Contact').then((m) => ({ default: m.Contact })))
 
 gsap.registerPlugin(useGSAP)
 
@@ -111,11 +114,13 @@ export default function App() {
         <main key={i18n.language} className="relative">
           <Hero />
           <Marquee />
-          <Meaning />
-          <Products />
-          <Services />
-          <Process />
-          <Contact />
+          <Suspense fallback={null}>
+            <Meaning />
+            <Products />
+            <Services />
+            <Process />
+            <Contact />
+          </Suspense>
         </main>
       </div>
       <Footer />
