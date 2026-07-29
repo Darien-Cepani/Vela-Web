@@ -89,7 +89,7 @@ export function Hero() {
 
       <div className="hero-grid relative mx-auto grid w-full max-w-[1240px] grid-cols-1 items-center gap-14 px-5 pt-28 pb-16 sm:px-6 lg:grid-cols-12 lg:gap-6 lg:px-8 lg:pt-24 lg:pb-14">
         <div className="lg:col-span-6">
-          <span className="hero-badge orbit-border inline-flex items-center rounded-full border border-hair bg-white/40 px-4 py-2 text-[12.5px] font-bold uppercase tracking-[0.16em] text-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] backdrop-blur-xl dark:bg-white/[0.06]">
+          <span className="hero-badge orbit-border inline-flex items-center whitespace-nowrap rounded-full border border-hair bg-white/40 px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] backdrop-blur-xl sm:px-4 sm:text-[12.5px] sm:tracking-[0.16em] dark:bg-white/[0.06]">
             {t('hero.badge')}
           </span>
           <h1 className="mt-7 text-[clamp(2.5rem,10.5vw,3.6rem)] leading-[1.05] md:text-[clamp(3.8rem,6.6vw,6rem)] md:leading-[1.01]">

@@ -39,7 +39,7 @@ export function Meaning() {
   )
 
   return (
-    <section ref={root} className="pt-24 md:pt-40">
+    <section id="meaning" ref={root} className="pt-24 md:pt-40">
       <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-14 px-5 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-32">
@@ -67,13 +67,13 @@ export function Meaning() {
                 aria-hidden
                 className="absolute inset-y-8 left-0 w-[3px] origin-center scale-y-100 rounded-full bg-cyan transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:inset-y-10 lg:scale-y-0 lg:group-hover:scale-y-100"
               />
-              <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 px-1 md:px-4">
+              <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1 pl-5 pr-1 md:px-4">
                 <h3 className="font-display text-2xl font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-2 md:text-5xl">
                   {p.word}
                 </h3>
                 <span className="text-[15px] font-bold uppercase tracking-[0.18em] text-accent-ink">{p.means}</span>
               </div>
-              <p className="mt-4 max-w-[52ch] px-1 text-base leading-relaxed text-soft md:px-4 md:text-lg">{p.body}</p>
+              <p className="mt-4 max-w-[52ch] pl-5 pr-1 text-base leading-relaxed text-soft md:px-4 md:text-lg">{p.body}</p>
             </div>
           ))}
         </div>

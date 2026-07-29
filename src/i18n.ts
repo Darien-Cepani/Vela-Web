@@ -9,6 +9,7 @@ const resources = {
         desc: 'Online stores, a marketplace and advertising. One agency takes you online and keeps you moving.',
       },
       nav: {
+        meaning: 'Why Vela',
         products: 'Products',
         services: 'Services',
         process: 'Process',
@@ -48,19 +49,19 @@ const resources = {
         sub: 'Same geometry, three colors. Each product covers one leg of the route to selling online.',
         items: [
           {
-            claim: 'Your shop online. Live in 5 days.',
+            claim: 'Your shop online. Live in 5 minutes.',
             body: 'A storefront in your brand, orders and payments in one panel, ready for Instagram and Google.',
             chips: ['Custom storefront', 'Order management', 'SQ + EN'],
           },
           {
-            claim: 'The shopping center, online.',
-            body: 'Your window in the Vela marketplace: new customers every day, zero marketing cost to start.',
-            chips: ['Marketplace storefront', 'Shared customers', 'Central orders'],
+            claim: 'Every Vela Shop, one marketplace.',
+            body: 'The plan ahead: all Vela Shops aggregated into a single online marketplace, bringing new customers to every shop in it.',
+            chips: ['Future plan', 'One marketplace', 'Shared customers'],
           },
           {
-            claim: 'Ads that sell.',
-            body: "Impulse campaigns across Albania's biggest portals, with creatives from our studio.",
-            chips: ['Major portals', 'Creatives included', 'Clear reporting'],
+            claim: 'Ads for every shop.',
+            body: 'Also ahead: advertising the shops and the market in partnership with MediaDesk and Impuls, bringing even more customers to Vela Shop users.',
+            chips: ['Future plan', 'MediaDesk & Impuls', 'Major portals'],
           },
         ],
       },
@@ -90,7 +91,7 @@ const resources = {
       },
       contact: {
         h2: 'Ready to set sail?',
-        sub: 'A 30-minute conversation is enough to chart the course.',
+        sub: 'Send us an email about your project.',
         subject: 'Start a project with Vela',
       },
       footer: {
@@ -111,10 +112,11 @@ const resources = {
         desc: 'Dyqane online, marketplace dhe reklama. Një agjenci të çon online dhe të mban në lëvizje.',
       },
       nav: {
+        meaning: 'Pse Vela',
         products: 'Produktet',
         services: 'Shërbimet',
         process: 'Procesi',
-        cta: 'Nis projektin',
+        cta: 'Kontakto',
         backToTop: 'Vela, kthehu në krye',
         openMenu: 'Hap menunë',
         closeMenu: 'Mbyll menunë',
@@ -150,19 +152,19 @@ const resources = {
         sub: 'E njëjta gjeometri, tre ngjyra. Secili produkt mbulon një pjesë të rrugës drejt shitjeve online.',
         items: [
           {
-            claim: 'Dyqani yt online. Live për 5 ditë.',
+            claim: 'Dyqani yt online. Live për 5 minuta.',
             body: 'Storefront me markën tënde, porosi e pagesa në një panel, gati për Instagram dhe Google.',
             chips: ['Storefront i personalizuar', 'Menaxhim porosish', 'SQ + EN'],
           },
           {
-            claim: 'Qendra tregtare, online.',
-            body: 'Vitrina jote në marketplace-un Vela: klientë të rinj çdo ditë, pa kosto marketingu në start.',
-            chips: ['Vitrinë në marketplace', 'Klientë të përbashkët', 'Porosi të centralizuara'],
+            claim: 'Çdo Vela Shop, një marketplace.',
+            body: 'Plani për të ardhmen: të gjitha Vela Shop-et bashkohen në një marketplace të vetëm online, që sjell klientë të rinj për çdo dyqan.',
+            chips: ['Plan i ardhshëm', 'Një marketplace', 'Klientë të përbashkët'],
           },
           {
-            claim: 'Reklama që shesin.',
-            body: 'Fushata impulse në portalet më të mëdha shqiptare, me kreativë nga studioja jonë.',
-            chips: ['Portalet kryesore', 'Kreativë të përfshirë', 'Raport i qartë'],
+            claim: 'Reklama për çdo dyqan.',
+            body: 'Gjithashtu në plan: reklamimi i dyqaneve dhe marketplace-ut në partneritet me MediaDesk dhe Impuls, që sjell edhe më shumë klientë për përdoruesit e Vela Shop.',
+            chips: ['Plan i ardhshëm', 'MediaDesk & Impuls', 'Portalet kryesore'],
           },
         ],
       },
@@ -192,7 +194,7 @@ const resources = {
       },
       contact: {
         h2: 'T’i ngremë velat?',
-        sub: 'Një bisedë 30-minutëshe mjafton për të nisur kursin.',
+        sub: 'Na dërgo një email për projektin tënd.',
         subject: 'Nis projektin me Vela',
       },
       footer: {

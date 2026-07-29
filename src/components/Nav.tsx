@@ -9,8 +9,8 @@ import { splashDelay } from './Splash'
 import lockupWhite from '../assets/brand/lockup-white.svg'
 import lockupInk from '../assets/brand/lockup-ink.svg'
 
-const LINK_IDS = ['products', 'services', 'process'] as const
-const SPY_IDS = ['top', 'products', 'services', 'process', 'contact'] as const
+const LINK_IDS = ['meaning', 'products', 'services', 'process'] as const
+const SPY_IDS = ['top', 'meaning', 'products', 'services', 'process', 'contact'] as const
 
 function LangToggle({ className = '' }: { className?: string }) {
   const { i18n } = useTranslation()
