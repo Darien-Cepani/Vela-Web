@@ -14,12 +14,42 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
   const holder = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const el = holder.current
-    if (!el) return
+    const mount = holder.current
+    if (!mount) return
+    const el: HTMLDivElement = mount
     let cancelled = false
     let cleanup: (() => void) | undefined
 
-    ;(async () => {
+    // the 3D mark is decorative: keep the three.js parse + tessellation off
+    // the load critical path (the flat SVG fallback and the splash cover it).
+    // Phones wait for the first interaction (they always come fast on touch);
+    // desktop builds at idle.
+    let cancelDefer: () => void
+    if (window.innerWidth < 1024) {
+      const events: Array<keyof WindowEventMap> = ['pointerdown', 'touchstart', 'wheel', 'scroll', 'keydown']
+      let fired = false
+      const fire = () => {
+        if (fired) return
+        fired = true
+        off()
+        init()
+      }
+      const off = () => {
+        events.forEach((e) => window.removeEventListener(e, fire))
+        clearTimeout(t)
+      }
+      events.forEach((e) => window.addEventListener(e, fire, { passive: true }))
+      const t = window.setTimeout(fire, 8000)
+      cancelDefer = off
+    } else {
+      const hasIdle = typeof window.requestIdleCallback === 'function'
+      const id = hasIdle
+        ? window.requestIdleCallback(() => init(), { timeout: 2600 })
+        : window.setTimeout(() => init(), 700)
+      cancelDefer = () => (hasIdle ? window.cancelIdleCallback(id as number) : clearTimeout(id as number))
+    }
+
+    async function init() {
       const THREE = await import('three')
       const { SVGLoader } = await import('three/examples/jsm/loaders/SVGLoader.js')
       const { RoomEnvironment } = await import('three/examples/jsm/environments/RoomEnvironment.js')
@@ -115,6 +145,9 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
         envMapIntensity: 0.28,
       })
       const group = new THREE.Group()
+      // tessellation scales with display size: the mobile mark is 240px, so
+      // high segment counts only burn main-thread time without visible gain
+      const fine = window.innerWidth >= 1024
       svg.paths.forEach((path, pathIndex) => {
         path.toShapes().forEach((shape) => {
           const geo = new THREE.ExtrudeGeometry(shape, {
@@ -122,8 +155,8 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
             bevelEnabled: true,
             bevelThickness: 2.2,
             bevelSize: 1.6,
-            bevelSegments: 4,
-            curveSegments: 28,
+            bevelSegments: fine ? 3 : 2,
+            curveSegments: fine ? 22 : 12,
           })
           const mesh = new THREE.Mesh(geo, material)
           mesh.castShadow = true
@@ -265,10 +298,11 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
         renderer.dispose()
         renderer.domElement.remove()
       }
-    })()
+    }
 
     return () => {
       cancelled = true
+      cancelDefer()
       cleanup?.()
     }
   }, [])

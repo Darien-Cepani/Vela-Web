@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { useTranslation } from 'react-i18next'
 import { gsap, ScrollTrigger, prefersReducedMotion } from './lib/gsap'
@@ -27,6 +27,22 @@ export default function App() {
   const root = useRef<HTMLDivElement>(null)
   // the voyage line is desktop/tablet depth; on phones it just runs under text
   const showVoyage = useIsDesktop('(min-width: 768px)')
+  // it's scroll-driven and starts below the fold, so mount it on the first
+  // scroll intent: users get it before it can be seen, and its page-height
+  // svg never resizes during load (which registered as a huge layout shift)
+  const [settled, setSettled] = useState(false)
+  useEffect(() => {
+    const fire = () => setSettled(true)
+    const opts = { once: true, passive: true } as const
+    window.addEventListener('scroll', fire, opts)
+    window.addEventListener('wheel', fire, opts)
+    window.addEventListener('touchstart', fire, opts)
+    return () => {
+      window.removeEventListener('scroll', fire)
+      window.removeEventListener('wheel', fire)
+      window.removeEventListener('touchstart', fire)
+    }
+  }, [])
 
   // global scroll-reveal for [data-reveal] elements; re-registers after a language remount
   useGSAP(
@@ -87,7 +103,7 @@ export default function App() {
       <Splash />
       {/* the page sheet scrolls above the fixed footer and lifts away to reveal it */}
       <div className="page-sheet pb-24 md:pb-36">
-        {showVoyage && <VoyageLine />}
+        {showVoyage && settled && <VoyageLine />}
         <ClickSpark />
         <ClickRipple />
         <Nav />
