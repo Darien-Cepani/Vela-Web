@@ -283,11 +283,28 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       })
       ro.observe(el)
 
+      // GPU context loss (driver reset, GPU-process restart): fall back to the
+      // flat SVG instead of a dead canvas, and come back when it's restored
+      const onLost = (ev: Event) => {
+        ev.preventDefault()
+        stop()
+        el.classList.add('mark3d-loading')
+      }
+      const onRestored = () => {
+        el.classList.remove('mark3d-loading')
+        if (reduce) renderer.render(scene, camera)
+        else start()
+      }
+      renderer.domElement.addEventListener('webglcontextlost', onLost)
+      renderer.domElement.addEventListener('webglcontextrestored', onRestored)
+
       // swap in once the 3D mark is live
       el.classList.remove('mark3d-loading')
 
       cleanup = () => {
         stop()
+        renderer.domElement.removeEventListener('webglcontextlost', onLost)
+        renderer.domElement.removeEventListener('webglcontextrestored', onRestored)
         io?.disconnect()
         ro.disconnect()
         themeWatcher.disconnect()
