@@ -138,9 +138,14 @@ export function Products() {
                       Vela {p.descriptor}
                       <span style={{ color: p.dot }}>.</span>
                     </span>
-                    {p.future && (
+                    {p.future ? (
                       <span className="rounded-full border border-cyan/40 bg-cyan/15 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-cyan">
                         {t('products.horizon')}
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5 rounded-full border border-mall-bright/40 bg-mall/20 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-mall-bright">
+                        <span aria-hidden className="h-1.5 w-1.5 animate-pulse rounded-full bg-mall-bright" />
+                        {t('products.online')}
                       </span>
                     )}
                   </div>
@@ -195,9 +200,14 @@ export function Products() {
                     Vela {p.descriptor}
                     <span style={{ color: p.dot }}>.</span>
                   </span>
-                  {p.future && (
+                  {p.future ? (
                     <span className="shrink-0 rounded-full border border-cyan/40 bg-cyan/15 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-cyan">
                       {t('products.horizon')}
+                    </span>
+                  ) : (
+                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-mall-bright/40 bg-mall/20 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-mall-bright">
+                      <span aria-hidden className="h-1 w-1 animate-pulse rounded-full bg-mall-bright" />
+                      {t('products.online')}
                     </span>
                   )}
                   <RiArrowDownSLine
