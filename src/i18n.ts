@@ -35,7 +35,7 @@ const resources = {
         titleAccent: 'Vela',
         titleEnd: ' mean?',
         manifesto:
-          'Vela is Albanian for sail. The sails of a ship catch the wind and carry it forward across the ocean. Our agency uses the internet the same way: to propel our clients’ businesses forward across the market.',
+          'The sails catch the wind and carry the ship forward across the ocean. Our agency uses the internet the same way: to propel our clients’ businesses forward across the market.',
         pillars: [
           { word: 'Wind', means: 'Momentum', body: 'Launches in days, not quarters. Speed is part of the service, not an upgrade.' },
           { word: 'Course', means: 'Direction', body: 'Strategy before pixels. Every page, product and campaign has a heading and a destination.' },
@@ -139,7 +139,7 @@ const resources = {
         titleAccent: 'Vela',
         titleEnd: '?',
         manifesto:
-          'Velat e një anijeje e kapin erën dhe e çojnë atë përpara nëpër oqean. Agjencia jonë e përdor internetin njësoj: për t’i çuar bizneset e klientëve tanë përpara nëpër treg.',
+          'Velat e vërteta përdorin erën për të çuar anijen përpara në oqean. Agjencia jonë e përdor internetin njësoj: për t’i çuar bizneset e klientëve tanë përpara në treg.',
         pillars: [
           { word: 'Era', means: 'Vrull', body: 'Lançime në ditë, jo në tremujorë. Shpejtësia është pjesë e shërbimit, jo ekstra.' },
           { word: 'Kursi', means: 'Drejtim', body: 'Strategji para pikselëve. Çdo faqe, produkt dhe fushatë ka drejtim dhe destinacion.' },
