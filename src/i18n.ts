@@ -44,6 +44,7 @@ const resources = {
       },
       products: {
         eyebrow: 'Products',
+        horizon: 'On the horizon',
         h2pre: 'Three sails, one ',
         h2accent: 'course',
         sub: 'Same geometry, three colors. Each product covers one leg of the route to selling online.',
@@ -147,6 +148,7 @@ const resources = {
       },
       products: {
         eyebrow: 'Produktet',
+        horizon: 'Në horizont',
         h2pre: 'Tre vela, një ',
         h2accent: 'kurs',
         sub: 'E njëjta gjeometri, tre ngjyra. Secili produkt mbulon një pjesë të rrugës drejt shitjeve online.',

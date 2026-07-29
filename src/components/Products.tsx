@@ -13,18 +13,21 @@ const STATIC = [
     mark: markShop,
     descriptor: 'Shop',
     dot: '#FF2E2E',
+    future: false,
     glow: 'radial-gradient(760px 520px at 78% 18%, rgb(255 46 46 / 0.26), rgb(245 158 11 / 0.10), transparent 70%)',
   },
   {
     mark: markMall,
     descriptor: 'Market',
     dot: '#1BA312',
+    future: true,
     glow: 'radial-gradient(760px 520px at 78% 18%, rgb(27 163 18 / 0.26), rgb(56 250 21 / 0.08), transparent 70%)',
   },
   {
     mark: markAds,
     descriptor: 'Ads',
     dot: '#B70808',
+    future: true,
     glow: 'radial-gradient(760px 520px at 78% 18%, rgb(183 8 8 / 0.30), rgb(255 46 46 / 0.10), transparent 70%)',
   },
 ]
@@ -129,12 +132,17 @@ export function Products() {
                     pointerEvents: isActive ? 'auto' : 'none',
                   }}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-4">
                     <img src={p.mark} alt="" className="acc-mark h-10 w-auto" />
                     <span className="font-display text-2xl font-semibold text-white">
                       Vela {p.descriptor}
                       <span style={{ color: p.dot }}>.</span>
                     </span>
+                    {p.future && (
+                      <span className="rounded-full border border-cyan/40 bg-cyan/15 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-cyan">
+                        {t('products.horizon')}
+                      </span>
+                    )}
                   </div>
 
                   <div className="max-w-[46ch]">
@@ -187,6 +195,11 @@ export function Products() {
                     Vela {p.descriptor}
                     <span style={{ color: p.dot }}>.</span>
                   </span>
+                  {p.future && (
+                    <span className="shrink-0 rounded-full border border-cyan/40 bg-cyan/15 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-cyan">
+                      {t('products.horizon')}
+                    </span>
+                  )}
                   <RiArrowDownSLine
                     size={22}
                     className={`ml-auto shrink-0 text-mist transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${

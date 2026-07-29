@@ -44,7 +44,9 @@ void main() {
 
   vec3 col = vec3(0.0, 0.667, 0.831) * (0.25 + diff * 0.5) + vec3(1.0) * spec * 0.9;
   float a = clamp((abs(h) * 0.9 + spec * 0.8) * smoothstep(1.0, 0.55, r), 0.0, 0.85);
-  outColor = vec4(col, a);
+  /* premultiplied output: composites correctly on every backend (ANGLE/D3D
+     shows an opaque white backing for non-premultiplied alpha canvases) */
+  outColor = vec4(col * a, a);
 }`
 
 const VERT = `#version 300 es
@@ -72,7 +74,7 @@ export const WaterRipples = forwardRef<WaterRipplesHandle, { className?: string 
     useEffect(() => {
       const canvas = canvasRef.current
       if (!canvas || prefersReducedMotion()) return
-      const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false })
+      const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true })
       if (!gl) return
 
       const compile = (type: number, src: string) => {
@@ -94,7 +96,7 @@ export const WaterRipples = forwardRef<WaterRipplesHandle, { className?: string 
         gl.useProgram(prog)
         gl.bindVertexArray(gl.createVertexArray())
         gl.enable(gl.BLEND)
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
         uTime = gl.getUniformLocation(prog, 'uTime')
         uRes = gl.getUniformLocation(prog, 'uRes')
         uDrops = gl.getUniformLocation(prog, 'uDrops')

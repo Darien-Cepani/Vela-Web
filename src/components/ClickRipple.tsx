@@ -106,7 +106,13 @@ export function ClickRipple() {
         <filter id="vela-click-ripple" primitiveUnits="userSpaceOnUse">
           {/* neutral gray everywhere the ring image doesn't cover = zero displacement */}
           <feFlood floodColor="rgb(128,128,128)" result="neutral" />
-          <feImage ref={feImg} preserveAspectRatio="none" result="ring" />
+          {/* initial 1px transparent href: an href-less feImage can render a broken-image glyph */}
+          <feImage
+            ref={feImg}
+            href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+            preserveAspectRatio="none"
+            result="ring"
+          />
           <feComposite in="ring" in2="neutral" operator="over" result="map" />
           <feDisplacementMap ref={feDisp} in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G" />
         </filter>
