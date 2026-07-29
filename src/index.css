@@ -183,10 +183,16 @@
     text-wrap: balance;
   }
 
-  /* outlined display text: hollow words for marquee rhythm */
-  .text-outline {
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--accent-ink) 60%, transparent);
-    color: transparent;
+  /* outlined display text for marquee rhythm; phones get solid words
+     because a 1px stroke on transparent fill renders mushy at mobile DPR */
+  .marquee-outline {
+    color: var(--txt3);
+  }
+  @media (min-width: 640px) {
+    .marquee-outline {
+      -webkit-text-stroke: 1px color-mix(in srgb, var(--accent-ink) 60%, transparent);
+      color: transparent;
+    }
   }
 
   /* headline line-mask reveal: lines are wrapped in .line > .line-inner */
@@ -197,6 +203,7 @@
   .line-inner {
     display: block;
     transform: translateY(0);
+    text-wrap: balance; /* no orphaned last word when a line wraps (e.g. 1366px) */
   }
 
   /* hero corner atmosphere, theme-aware */

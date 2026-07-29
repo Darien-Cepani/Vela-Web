@@ -193,19 +193,19 @@ export function Products() {
                 <button
                   onClick={() => setActive(i)}
                   aria-expanded={isActive}
-                  className="relative flex w-full items-center gap-3.5 p-5 text-left"
+                  className="relative flex w-full items-center gap-3 p-5 text-left"
                 >
-                  <img src={p.mark} alt="" className="h-8 w-auto" />
-                  <span className="font-display text-lg font-semibold text-white">
+                  <img src={p.mark} alt="" className="h-8 w-auto shrink-0" />
+                  <span className="whitespace-nowrap font-display text-lg font-semibold text-white">
                     Vela {p.descriptor}
                     <span style={{ color: p.dot }}>.</span>
                   </span>
                   {p.future ? (
-                    <span className="shrink-0 rounded-full border border-cyan/40 bg-cyan/15 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-cyan">
+                    <span className="shrink-0 rounded-full border border-cyan/40 bg-cyan/15 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-cyan">
                       {t('products.horizon')}
                     </span>
                   ) : (
-                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-mall-bright/40 bg-mall/20 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-[0.12em] text-mall-bright">
+                    <span className="flex shrink-0 items-center gap-1 rounded-full border border-mall-bright/40 bg-mall/20 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-mall-bright">
                       <span aria-hidden className="h-1 w-1 animate-pulse rounded-full bg-mall-bright" />
                       {t('products.online')}
                     </span>

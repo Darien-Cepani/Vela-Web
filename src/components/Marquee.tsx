@@ -23,7 +23,7 @@ export function Marquee() {
       <span key={item} className="flex items-center gap-12" aria-hidden={hidden || undefined}>
         <span
           className={`font-display text-xl font-medium md:text-3xl ${
-            i % 2 === 0 ? 'text-fade' : 'text-outline'
+            i % 2 === 0 ? 'text-fade' : 'marquee-outline'
           }`}
         >
           {item}
