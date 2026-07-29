@@ -59,6 +59,8 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       const size = () => Math.min(el.clientWidth, el.clientHeight) || 420
 
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+      // quiet ANGLE's X4122 precision warnings about three's own shader constants
+      renderer.debug.checkShaderErrors = false
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.setSize(size(), size())
       renderer.toneMapping = THREE.ACESFilmicToneMapping

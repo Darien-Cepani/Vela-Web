@@ -11,7 +11,11 @@ import { prefersReducedMotion } from '../lib/gsap'
  * Fired via the `vela-ripple` CustomEvent; one ring per click.
  */
 
-/** Firefox supports SVG filters via `filter:` but not via `backdrop-filter:`. */
+/**
+ * Firefox is excluded entirely: it lacks backdrop-filter url() support, and
+ * the filter:url() fallback on <main> is software-rendered per frame, which
+ * stutters heavily. Gecko users keep the local water + spark effects instead.
+ */
 const IS_GECKO = typeof CSS !== 'undefined' && CSS.supports('-moz-appearance', 'none')
 
 /** Ring displacement map: R/G encode the radial push around a gaussian ring. */
@@ -51,7 +55,7 @@ export function ClickRipple() {
   useEffect(() => {
     feImg.current?.setAttribute('href', makeRingMap())
     const onRipple = (e: Event) => {
-      if (prefersReducedMotion()) return
+      if (IS_GECKO || prefersReducedMotion()) return
       const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail
       anim.current = { x, y, t0: performance.now() }
       setActive(true)
@@ -65,11 +69,6 @@ export function ClickRipple() {
 
   useEffect(() => {
     if (!active) return
-    // Firefox fallback: distort <main> itself (nav and footer live outside it);
-    // Chromium keeps the backdrop overlay, which also spares the 3D mark.
-    const mainEl = IS_GECKO ? document.querySelector<HTMLElement>('main') : null
-    if (mainEl) mainEl.style.filter = 'url(#vela-click-ripple)'
-
     const SPEED = 1000 // px/s wavefront
     const DECAY = 2.4 // strength half-life, wdtyDH-style damping
     const MAX_SCALE = 16 // kept small: a passing wave, not a page-warp
@@ -94,10 +93,7 @@ export function ClickRipple() {
       raf.current = requestAnimationFrame(step)
     }
     raf.current = requestAnimationFrame(step)
-    return () => {
-      cancelAnimationFrame(raf.current)
-      if (mainEl) mainEl.style.filter = ''
-    }
+    return () => cancelAnimationFrame(raf.current)
   }, [active])
 
   return (

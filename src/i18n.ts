@@ -31,11 +31,11 @@ const resources = {
         items: ['Online stores', 'Marketplace', 'Advertising', 'Graphic design', 'Content', 'Web apps', 'E-commerce', 'CMS & blogs'],
       },
       meaning: {
-        titlePre: 'Vela means ',
-        titleAccent: 'sail',
-        titleEnd: '.',
+        titlePre: 'What does ',
+        titleAccent: 'Vela',
+        titleEnd: ' mean?',
         manifesto:
-          'In Albanian, vela is the sail. A sail does one thing: it turns wind into forward motion. We do the same with the internet, for your business.',
+          'Vela is Albanian for sail. The sails of a ship catch the wind and carry it forward across the ocean. Our agency uses the internet the same way: to propel our clients’ businesses forward across the market.',
         pillars: [
           { word: 'Wind', means: 'Momentum', body: 'Launches in days, not quarters. Speed is part of the service, not an upgrade.' },
           { word: 'Course', means: 'Direction', body: 'Strategy before pixels. Every page, product and campaign has a heading and a destination.' },
@@ -135,11 +135,11 @@ const resources = {
         items: ['Dyqane online', 'Marketplace', 'Reklama', 'Dizajn grafik', 'Përmbajtje', 'Web apps', 'E-commerce', 'CMS & blogje'],
       },
       meaning: {
-        titlePre: 'Vela do të ',
-        titleAccent: 'thotë',
-        titleEnd: ':',
+        titlePre: 'Çfarë do të thotë ',
+        titleAccent: 'Vela',
+        titleEnd: '?',
         manifesto:
-          'Vela bën një gjë të vetme: e kthen erën në lëvizje përpara. Ne bëjmë të njëjtën gjë me internetin, për biznesin tënd.',
+          'Velat e një anijeje e kapin erën dhe e çojnë atë përpara nëpër oqean. Agjencia jonë e përdor internetin njësoj: për t’i çuar bizneset e klientëve tanë përpara nëpër treg.',
         pillars: [
           { word: 'Era', means: 'Vrull', body: 'Lançime në ditë, jo në tremujorë. Shpejtësia është pjesë e shërbimit, jo ekstra.' },
           { word: 'Kursi', means: 'Drejtim', body: 'Strategji para pikselëve. Çdo faqe, produkt dhe fushatë ka drejtim dhe destinacion.' },
