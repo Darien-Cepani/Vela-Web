@@ -4,14 +4,216 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Paint the stored theme's surface before any CSS arrives. Without this
+         the first frame of an SPA is a white page, which on a deep-sea site
+         reads as a flash of broken layout. -->
+    <script>
+      // A static host with no rewrites serves 404.html for /work/:slug; it
+      // parks the requested path here and bounces to the root. Put it back
+      // before anything reads location, so the router sees the real URL.
+      ;(function () {
+        try {
+          var saved = sessionStorage.getItem('vela-redirect')
+          if (saved) {
+            sessionStorage.removeItem('vela-redirect')
+            history.replaceState({}, '', saved)
+          }
+        } catch (e) {}
+      })()
+      ;(function () {
+        try {
+          var t = localStorage.getItem('vela-theme') || 'dark'
+          document.documentElement.dataset.theme = t
+          document.documentElement.style.background = t === 'light' ? '#F4F7F8' : '#071E26'
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark'
+          document.documentElement.style.background = '#071E26'
+        }
+      })()
+    </script>
+    <!-- The crawlable fallback inside #root is real DOM text, but it is
+         unstyled, and React does not replace it until it mounts. The splash
+         hides it on a first visit; a repeat visit in the same session skips
+         the splash and would show a wall of Times New Roman. Clipped rather
+         than display:none so the text stays rendered for extractors that
+         bother to look at CSS. Inline, because an external stylesheet is one
+         more round trip during exactly the window this guards. -->
+    <style>
+      /* The lead paints from HTML, before React exists, and Lighthouse measures
+         it as the LCP element — 1.7s sooner than waiting for the app to mount,
+         measured on throttled mobile. So it is styled to stand in for the real
+         hero rather than hidden. Everything below it is clipped: that content
+         is there for crawlers, not for the half second before hydration.
+         Inline rather than in the stylesheet, because an external sheet is one
+         more round trip during exactly the window this covers. */
+      .sf-lead {
+        max-width: 46rem;
+        padding: 26vh 7vw 0;
+        font-family: "Satoshi", "Segoe UI", system-ui, sans-serif;
+      }
+      .sf-lead h1 {
+        margin: 0 0 1rem;
+        font-family: "Clash Display", "Segoe UI", system-ui, sans-serif;
+        font-weight: 600;
+        font-size: clamp(2.1rem, 7vw, 4.2rem);
+        line-height: 1.02;
+        letter-spacing: -0.015em;
+        color: #fff;
+      }
+      .sf-lead p {
+        margin: 0;
+        font-size: clamp(1rem, 2.6vw, 1.15rem);
+        line-height: 1.5;
+        color: #9fbac3;
+      }
+      :root[data-theme="light"] .sf-lead h1 { color: #0c1418; }
+      :root[data-theme="light"] .sf-lead p { color: #5c6f77; }
+      .sf-rest {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+    </style>
     <meta name="description" content="Online stores, a marketplace and advertising. One agency takes you online and keeps you moving." />
-    <meta name="theme-color" content="#071E26" />
+    <meta name="theme-color" content="#071E26" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F4F7F8" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://vela.al/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Vela Agency" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="sq_AL" />
+    <meta property="og:url" content="https://vela.al/" />
     <meta property="og:title" content="Vela Agency · Raise the sails of your business" />
     <meta property="og:description" content="Online stores, a marketplace and advertising. One agency takes you online and keeps you moving." />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://vela.al/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vela — development and marketing studio, Tirana." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vela Agency · Raise the sails of your business" />
+    <meta name="twitter:description" content="Online stores, a marketplace and advertising. One agency takes you online and keeps you moving." />
+    <meta name="twitter:image" content="https://vela.al/og.png" />
     <title>Vela Agency · Raise the sails of your business</title>
+    <!-- Ties every page to one entity. An assistant deciding whether two
+         mentions of "Vela" are the same business keys off @id and sameAs;
+         sameAs is deliberately absent rather than guessed — see the note in
+         the handover. Add the real profile URLs and this gets much stronger. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://vela.al/#website",
+        "url": "https://vela.al/",
+        "name": "Vela Agency",
+        "inLanguage": ["en", "sq"],
+        "publisher": { "@id": "https://vela.al/#organization" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "@id": "https://vela.al/#organization",
+        "name": "Vela Agency",
+        "alternateName": "Vela",
+        "legalName": "Vela Agency",
+        "description": "Development and marketing studio in Tirana, Albania. Online stores, websites, brand, content and advertising for Albanian businesses, in Albanian and English.",
+        "disambiguatingDescription": "A web development and marketing agency based in Tirana, Albania. Not the constellation Vela.",
+        "url": "https://vela.al/",
+        "logo": "https://vela.al/favicon.svg",
+        "image": "https://vela.al/og.png",
+        "slogan": "Raise your sails. Sail the online sea.",
+        "areaServed": { "@type": "Country", "name": "Albania" },
+        "availableLanguage": ["sq", "en"],
+        "knowsLanguage": ["sq", "en"],
+        "serviceType": [
+          "Web development",
+          "E-commerce development",
+          "Brand and graphic design",
+          "Content creation",
+          "Search engine optimisation",
+          "Digital advertising"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tirana",
+          "addressCountry": "AL"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "availableLanguage": ["sq", "en"],
+          "areaServed": "AL",
+          "url": "https://vela.al/"
+        },
+        "brand": [
+          { "@type": "Brand", "name": "Vela Shop" },
+          { "@type": "Brand", "name": "Vela Market" },
+          { "@type": "Brand", "name": "Vela Ads" }
+        ],
+        "makesOffer": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-commerce" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Websites and landing pages" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Graphic design" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Content creation" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web apps and CMS" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Blogs and SEO" } }
+        ]
+      }
+    </script>
+    <!-- Mirrors the visible Q&A in the Questions section. Keep the two in sync:
+         structured data that does not match the page is a manual-action risk. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "I already sell on Instagram. Do I need a shop?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Keep Instagram — it is where people find you. The shop is where the order and the customer stay yours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does it take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Vela Shop storefront: about five minutes. Custom work: days, not quarters."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does it cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends what you are building, so you get a real number rather than a range. Asking costs nothing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who runs it after launch?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You do. One panel, no training needed. We stay on for the measuring and the fixing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you work in Albanian?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Albanian first, English alongside it. Your site and your panel run in both."
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

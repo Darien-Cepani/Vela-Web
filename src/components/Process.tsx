@@ -7,14 +7,22 @@ import { BlurText } from './BlurText'
 /**
  * "Our process" as a voyage timeline: a dashed course runs down the section,
  * a cyan progress line draws over it as you scroll, and each phase is a
- * waypoint that lights up when the course reaches it. Steps alternate sides
- * of the rail on desktop and stack along a left rail on mobile.
+ * waypoint that lights up when the course reaches it.
+ *
+ * The phases are numbered because the order *is* the content — a client
+ * reading this needs to know that Discover comes before Build — and each
+ * carries what it actually produces, so the section answers "what happens,
+ * in what order, and what do I get" instead of only naming four verbs.
  */
 export function Process() {
   const { t } = useTranslation()
   const root = useRef<HTMLElement>(null)
 
-  const steps = t('process.steps', { returnObjects: true }) as Array<{ verb: string; body: string }>
+  const steps = t('process.steps', { returnObjects: true }) as Array<{
+    verb: string
+    body: string
+    yield: string
+  }>
 
   useGSAP(
     () => {
@@ -26,12 +34,7 @@ export function Process() {
         {
           scaleY: 1,
           ease: 'none',
-          scrollTrigger: {
-            trigger: '.proc-rail-wrap',
-            start: 'top 72%',
-            end: 'bottom 58%',
-            scrub: 0.6,
-          },
+          scrollTrigger: { trigger: '.proc-rail-wrap', start: 'top 72%', end: 'bottom 58%', scrub: 0.6 },
         },
       )
       // waypoints light up as the course passes them
@@ -39,8 +42,8 @@ export function Process() {
         ScrollTrigger.create({
           trigger: dot,
           start: 'top 64%',
-          onEnter: () => dot.classList.add('vl-wp-on'),
-          onLeaveBack: () => dot.classList.remove('vl-wp-on'),
+          onEnter: () => dot.classList.add('glass-orb-on'),
+          onLeaveBack: () => dot.classList.remove('glass-orb-on'),
         })
       })
     },
@@ -57,47 +60,53 @@ export function Process() {
           {t('process.sub')}
         </p>
 
-        <div className="proc-rail-wrap relative mt-14 md:mt-20">
-          {/* the course: dashed plan + scrubbed sailed line, left rail on mobile, center on lg */}
-          <div aria-hidden className="absolute inset-y-2 left-[7px] w-px lg:left-1/2 lg:-translate-x-1/2">
+        {/* A single rail on the left at every width. The old centre rail on lg
+            alternated sides, which left half of every row empty and put a
+            second dashed line in direct competition with the voyage chart. */}
+        <ol className="proc-rail-wrap relative mt-14 md:mt-16">
+          <div aria-hidden className="absolute inset-y-3 left-[19px] w-px md:left-[27px]">
             <div className="h-full border-l border-dashed border-hair" />
             <div className="proc-progress absolute inset-0 origin-top scale-y-0 bg-cyan shadow-[0_0_10px_rgb(0_170_212/0.45)]" />
           </div>
 
-          <div className="flex flex-col gap-14 md:gap-24">
-            {steps.map((s, i) => (
-              <article
-                key={s.verb}
-                data-reveal
-                className="relative grid grid-cols-[30px_1fr] items-start lg:grid-cols-2 lg:gap-x-20"
+          {steps.map((s, i) => (
+            <li
+              key={s.verb}
+              data-reveal
+              /* Three columns from lg: marker, phase, explanation. As two
+                 columns the body stopped at its 54ch measure and left roughly
+                 a third of the row empty on a wide screen — splitting the
+                 phase from its explanation uses that width and turns the list
+                 into something you can read across as well as down. */
+              className="group relative grid grid-cols-[40px_1fr] items-start gap-x-5 border-t border-hair py-8 first:border-t-0 md:grid-cols-[56px_1fr] md:gap-x-8 md:py-10 lg:grid-cols-[56px_minmax(0,4fr)_minmax(0,5fr)] lg:gap-x-12 lg:items-baseline"
+            >
+              {/* the waypoint carries the phase number: the marker and the
+                  ordinal are the same object, so the rail reads as a sequence */}
+              <span
+                aria-hidden
+                className="proc-dot glass-orb relative z-10 flex h-11 w-11 items-center justify-center rounded-full font-display text-[13px] font-semibold text-soft md:h-14 md:w-14 md:text-[15px]"
               >
-                {/* waypoint on the course */}
-                <span
-                  aria-hidden
-                  className="proc-dot relative top-3 h-4 w-4 rounded-full border-2 border-cyan bg-surface transition-[background-color,border-color,box-shadow] duration-500 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
-                />
-                <div
-                  className={
-                    i % 2 === 0
-                      ? 'lg:col-start-1 lg:row-start-1 lg:text-right'
-                      : 'lg:col-start-2 lg:row-start-1'
-                  }
-                >
-                  <h3 className="font-display text-3xl font-semibold md:text-5xl">
-                    {s.verb}<span className="text-accent-ink">.</span>
-                  </h3>
-                  <p
-                    className={`mt-3 max-w-[38ch] text-base leading-relaxed text-soft md:text-lg ${
-                      i % 2 === 0 ? 'lg:ml-auto' : ''
-                    }`}
-                  >
-                    {s.body}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+
+              {/* the phase */}
+              <div className="min-w-0 pt-1 lg:pt-0">
+                <h3 className="font-display text-2xl font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 md:text-4xl">
+                  {s.verb}<span className="text-accent-ink">.</span>
+                </h3>
+                {/* what the client walks away with, tied to the phase it belongs to */}
+                <span className="mt-3 inline-block rounded-full border border-cyan/25 bg-cyan/[0.08] px-3 py-1 text-[11.5px] font-bold uppercase tracking-[0.14em] whitespace-nowrap text-accent-ink">
+                  {s.yield}
+                </span>
+              </div>
+
+              {/* the explanation, on its own column from lg */}
+              <p className="col-start-2 mt-3 max-w-[54ch] text-base leading-relaxed text-soft md:text-lg lg:col-start-3 lg:mt-0 lg:max-w-none">
+                {s.body}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

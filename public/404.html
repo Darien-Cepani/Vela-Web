@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vela</title>
+    <script>
+      // GitHub Pages has no rewrite rules, so a deep link like /work/vela-shop
+      // is served this file instead of index.html. Stash the requested path in
+      // sessionStorage and bounce to the app root, which restores it before
+      // React mounts. On a host that can rewrite (Vercel, Netlify, Cloudflare)
+      // this file is never reached — see vercel.json.
+      ;(function () {
+        var base = location.pathname.indexOf('/Vela-Web/') === 0 ? '/Vela-Web/' : '/'
+        sessionStorage.setItem('vela-redirect', location.pathname + location.search + location.hash)
+        location.replace(base)
+      })()
+    </script>
+  </head>
+  <body></body>
+</html>

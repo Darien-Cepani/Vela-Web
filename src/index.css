@@ -11,7 +11,13 @@
   --txt: #ffffff;      /* primary text        */
   --txt2: #9fbac3;     /* secondary text      */
   --txt3: #7fa6b2;     /* tertiary text       */
-  --hair: #12404e;     /* hairlines, borders  */
+  --hair: #12404e;     /* decorative hairlines */
+  /* WCAG 1.4.11 wants 3:1 for the visual boundary that identifies a control.
+     These buttons sit on a background barely distinct from the page, so the
+     border IS the identifier and the old #1d5568 (2.09:1) did not carry it.
+     Chosen to clear 3:1 against BOTH the page and the raised surface, since
+     controls appear on each: 3.90:1 and 3.18:1. */
+  --edge: #40809a;     /* interactive boundaries: buttons, inputs, controls */
   --atmo: rgb(11 48 60 / 0.9);   /* hero corner wash    */
   --accent-ink: #00aad4;         /* accent that reads on --srf */
   color-scheme: dark;
@@ -23,6 +29,10 @@
   --txt2: #5c6f77;
   --txt3: #8fa3ab;
   --hair: #e2e9ec;
+  /* a hairline this faint is invisible on paper; controls get their own,
+     darker boundary so a bordered button still reads as a button.
+     3.09:1 on the page and 3.32:1 on white — the old #b9cbd3 was 1.55:1. */
+  --edge: #7d9099;
   --atmo: rgb(207 228 236 / 0.85);
   --accent-ink: #006a85;
   color-scheme: light;
@@ -77,6 +87,7 @@
   --color-soft: var(--txt2);
   --color-fade: var(--txt3);
   --color-hair: var(--hair);
+  --color-edge: var(--edge);
   --color-accent-ink: var(--accent-ink);
 }
 
@@ -183,16 +194,545 @@
     text-wrap: balance;
   }
 
-  /* outlined display text for marquee rhythm; phones get solid words
-     because a 1px stroke on transparent fill renders mushy at mobile DPR */
-  .marquee-outline {
-    color: var(--txt3);
+  /* Off-screen until focused, then a real button in the corner. The nav pill
+     is fixed and eight tab stops deep; without this, reaching the page's
+     content by keyboard means walking through all of it on every load. */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 60;
+    translate: 0 -180%;
+    border-radius: 999px;
+    background: var(--color-cyan);
+    color: var(--color-sea);
+    padding: 0.8rem 1.4rem;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgb(2 10 14 / 0.35);
+    transition: translate 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
-  @media (min-width: 640px) {
-    .marquee-outline {
-      -webkit-text-stroke: 1px color-mix(in srgb, var(--accent-ink) 60%, transparent);
-      color: transparent;
+  .skip-link:focus-visible {
+    translate: 0 0;
+  }
+
+  /* announced, never drawn — for controls whose visible label is a brand name
+     but whose action needs naming ("Vela Market" → "Vela Market, open") */
+  .sr-only-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* The pillar crossing the reading band is the live one. Hover still works on
+     a pointer device; this is what makes the column move on a phone, where
+     there is no hover and the section was previously completely static. */
+  .pillar-live .pillar-bar {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  .pillar-live .pillar-word {
+    color: var(--accent-ink);
+    transform: translateX(6px);
+  }
+
+  /* ── route transition ──
+     The whole page cross-fades and lifts a few pixels as the route commits.
+     Deliberately short: a page change should feel continuous, not staged, and
+     anything past ~350ms starts to feel like waiting. Engines without view
+     transitions simply commit instantly, which is the old behaviour. */
+  ::view-transition-old(root) {
+    animation: vela-route-out 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation: vela-route-in 0.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+  @keyframes vela-route-out {
+    to { opacity: 0; transform: translateY(-10px); }
+  }
+  @keyframes vela-route-in {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
     }
+  }
+
+
+  /* ── shift diagrams ──
+     Two colours: currentColor for the neutral furniture, which inherits the
+     card's text colour and so follows the theme, and brand cyan for whatever
+     the diagram is arguing.
+
+     Every diagram runs one continuous 7s loop. Each keyframe set ends exactly
+     where it began, so the cycle closes without a jump — the alternative,
+     playing once on entry, meant a visitor who arrived a second late saw only
+     the end state and never the argument. Continuous rotations (the clock
+     hand, the gear, the spark) run on their own linear timings, because a
+     rotation that eases is a rotation that visibly stutters at the seam.
+
+     `.dia-run` is toggled by the card entering and LEAVING the viewport, so
+     nothing is animating off-screen. */
+
+  /* These use fill-opacity / stroke-opacity, NOT opacity. The loops below
+     animate element `opacity`, which would otherwise override a base
+     `opacity: 0.08` and render every neutral shape at full strength. */
+  .dia-track { fill: currentColor; fill-opacity: 0.16; }
+  .dia-card { fill: currentColor; fill-opacity: 0.08; }
+  .dia-face { fill: var(--srf); }
+  .dia-hit-bg { fill: var(--color-cyan); fill-opacity: 0.16; }
+  .dia-stroke { stroke: currentColor; stroke-width: 2; fill: none; stroke-opacity: 0.45; }
+  .dia-stroke-accent { stroke: var(--color-cyan); stroke-width: 2.2; fill: none; }
+  .dia-fill-accent { fill: var(--color-cyan); }
+  .dia-fill-soft { fill: var(--color-cyan); fill-opacity: 0.16; }
+
+  /* rotation and scaling inside an SVG need an explicit box, or they pivot
+     around the canvas corner rather than the shape */
+
+  /* Resting states — what a diagram looks like with motion switched off. Each
+     one is the readable end of its own argument, so reduced motion still gets
+     a diagram that makes sense. */
+
+  /* ── the loop ── */
+
+
+
+
+
+
+  /* Continuous rotations: one full turn per cycle, so the seam is invisible. */
+
+  /* Staged loops. Each holds its argument for most of the cycle, then clears
+     in time to start again from the same place it began. */
+
+  @media (prefers-reduced-motion: reduce) {
+    [class*='dia-'] { animation: none !important; }
+  }
+
+  /* ── diagram 1: the 24-hour dial ──
+     One loop is one day. The cycle is 7s, so one hour is 1/24 of it —
+     4.1667% — and every beat below is placed at the percentage of the hour it
+     represents rather than at a hand-tuned delay. That is what keeps the
+     orders landing exactly as the hand passes them:
+
+        01:00 →  4.17%      09:00 → 37.5%   (sunrise, and you get up)
+        03:00 → 12.5%       20:00 → 83.3%   (sunset)
+        06:00 → 25%
+
+     The last 10% of the cycle clears everything back to its start so the wrap
+     is invisible. */
+
+  .dia-h-ring {
+    stroke: var(--color-cyan);
+    stroke-width: 3;
+    stroke-opacity: 0.45;
+    fill: none;
+  }
+  /* the bright arc that marks the current hour, riding with the hand */
+  .dia-h-seg {
+    stroke: var(--color-cyan);
+    stroke-width: 3.4;
+    fill: none;
+    /* circumference at r=38 is 238.8; a 17px lit arc is about one hour */
+    stroke-dasharray: 17 221.8;
+    filter: drop-shadow(0 0 3px rgb(0 170 212 / 0.45));
+  }
+  .dia-h-hand {
+    fill: var(--color-cyan);
+    fill-opacity: 0.92;
+    stroke: none;
+  }
+  /* thinner and softer than the hour hand: at 3.4 revolutions a second a
+     hard-edged needle strobes, a light one reads as a sweep */
+  .dia-h-hand-min {
+    fill: var(--color-cyan);
+    fill-opacity: 0.5;
+    stroke: none;
+  }
+
+  /* Two different pivots, and mixing them up is what made the hand wobble.
+     The hand and the two celestial bodies turn about the DIAL CENTRE, which
+     must track CX/CY in the component — a stale value here does not break the
+     hand, it makes it orbit a point beside the dial and swing wide on one side
+     of every rotation. Everything else (order dots, their pings, the receipts
+     and their ticks) scales about ITSELF, so those use fill-box: a ping has to
+     ring its own dot, not blow outward from the middle of the clock. */
+  .dia-h-sweep,
+  .dia-h-min,
+  .dia-h-moon,
+  .dia-h-sun {
+    transform-box: view-box;
+    transform-origin: 50px 50px;
+  }
+  .dia-h-ord,
+  .dia-h-ping,
+  .dia-h-rcpt,
+  .dia-h-pend,
+  .dia-h-done {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .dia-h-ping {
+    fill: none;
+    stroke: var(--color-cyan);
+    stroke-width: 1.6;
+    opacity: 0;
+  }
+
+  /* Resting state — what this reads as with motion off. Mid-morning: the sun
+     is up, all three orders are in, all three receipts are packed. The claim
+     still lands without a single frame of animation. */
+  /* Parked at exactly nine o'clock: sun up, everything packed — the moment
+     the note describes. 9h × 15° = 135° for the hour hand, minute hand at
+     zero. Picked partly because it separates the two hands by 135°; at 09:20
+     they sat 20° apart and merged into a single wedge in the still frame.
+     Midnight hands under a risen sun was the contradiction before that. */
+  .dia-h-sweep { transform: rotate(135deg); }
+  .dia-h-min { transform: rotate(0deg); }
+  .dia-h-moon { opacity: 0; }
+  .dia-h-sun { opacity: 1; }
+  .dia-h-ord { opacity: 1; }
+  .dia-h-rcpt { opacity: 1; }
+  .dia-h-pend { opacity: 0; }
+  .dia-h-done { opacity: 1; }
+
+  /* ── the day ── */
+  .dia-run .dia-h-sweep { animation: dia-h-sweep 7s linear infinite; }
+  .dia-run .dia-h-min { animation: dia-h-min 7s linear infinite; }
+  .dia-run .dia-h-moon { animation: dia-h-moon 7s ease-in-out infinite; }
+  .dia-run .dia-h-sun { animation: dia-h-sun 7s ease-in-out infinite; }
+
+  .dia-run .dia-h-ord-1 { animation: dia-h-land-1 7s linear infinite; }
+  .dia-run .dia-h-ord-2 { animation: dia-h-land-2 7s linear infinite; }
+  .dia-run .dia-h-ord-3 { animation: dia-h-land-3 7s linear infinite; }
+  .dia-run .dia-h-ord-1 .dia-h-ping { animation: dia-h-ping-1 7s ease-out infinite; }
+  .dia-run .dia-h-ord-2 .dia-h-ping { animation: dia-h-ping-2 7s ease-out infinite; }
+  .dia-run .dia-h-ord-3 .dia-h-ping { animation: dia-h-ping-3 7s ease-out infinite; }
+
+  .dia-run .dia-h-rcpt-1 { animation: dia-h-rcpt-1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-h-rcpt-2 { animation: dia-h-rcpt-2 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-h-rcpt-3 { animation: dia-h-rcpt-3 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+
+  /* packed at nine, one after another */
+  .dia-run .dia-h-pend-1 { animation: dia-h-pend-1 7s linear infinite; }
+  .dia-run .dia-h-pend-2 { animation: dia-h-pend-2 7s linear infinite; }
+  .dia-run .dia-h-pend-3 { animation: dia-h-pend-3 7s linear infinite; }
+  .dia-run .dia-h-done-1 { animation: dia-h-done-1 7s ease-out infinite; }
+  .dia-run .dia-h-done-2 { animation: dia-h-done-2 7s ease-out infinite; }
+  .dia-run .dia-h-done-3 { animation: dia-h-done-3 7s ease-out infinite; }
+
+  @keyframes dia-h-sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  /* 24 turns in exactly one 7s day, so the two hands stay phase-locked and the
+     loop seam lands with both at midnight */
+  @keyframes dia-h-min {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(8640deg); }
+  }
+
+  /* night from 20:00 to 09:00 — the moon holds the middle of the dial */
+  @keyframes dia-h-moon {
+    0%, 32% { opacity: 1; transform: scale(1); }
+    37%, 82% { opacity: 0; transform: scale(0.8); }
+    88%, 100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes dia-h-sun {
+    0%, 38% { opacity: 0; transform: scale(0.8) rotate(-25deg); }
+    44%, 78% { opacity: 1; transform: none; }
+    83%, 100% { opacity: 0; transform: scale(0.8) rotate(25deg); }
+  }
+
+  /* an order lands the instant the hand reaches its hour, and stays there */
+  @keyframes dia-h-land-1 {
+    0%, 4.1% { opacity: 0; transform: scale(0.2); }
+    7%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.2); }
+  }
+  @keyframes dia-h-land-2 {
+    0%, 12.4% { opacity: 0; transform: scale(0.2); }
+    15.5%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.2); }
+  }
+  @keyframes dia-h-land-3 {
+    0%, 24.9% { opacity: 0; transform: scale(0.2); }
+    28%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.2); }
+  }
+  @keyframes dia-h-ping-1 {
+    0%, 4.1% { opacity: 0.85; transform: scale(0.5); }
+    13%, 100% { opacity: 0; transform: scale(2.1); }
+  }
+  @keyframes dia-h-ping-2 {
+    0%, 12.4% { opacity: 0; transform: scale(0.5); }
+    12.5% { opacity: 0.85; transform: scale(0.5); }
+    21%, 100% { opacity: 0; transform: scale(2.1); }
+  }
+  @keyframes dia-h-ping-3 {
+    0%, 24.9% { opacity: 0; transform: scale(0.5); }
+    25% { opacity: 0.85; transform: scale(0.5); }
+    34%, 100% { opacity: 0; transform: scale(2.1); }
+  }
+
+  /* the receipt arrives with its order */
+  @keyframes dia-h-rcpt-1 {
+    0%, 4.1% { opacity: 0; transform: translateX(18px); }
+    11%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translateX(18px); }
+  }
+  @keyframes dia-h-rcpt-2 {
+    0%, 12.4% { opacity: 0; transform: translateX(18px); }
+    19%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translateX(18px); }
+  }
+  @keyframes dia-h-rcpt-3 {
+    0%, 24.9% { opacity: 0; transform: translateX(18px); }
+    31%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translateX(18px); }
+  }
+
+  /* pending until nine, then packed */
+  @keyframes dia-h-pend-1 { 0%, 40% { opacity: 1; } 43%, 100% { opacity: 0; } }
+  @keyframes dia-h-pend-2 { 0%, 46% { opacity: 1; } 49%, 100% { opacity: 0; } }
+  @keyframes dia-h-pend-3 { 0%, 52% { opacity: 1; } 55%, 100% { opacity: 0; } }
+  @keyframes dia-h-done-1 {
+    0%, 40% { opacity: 0; transform: scale(0.5); }
+    46%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.5); }
+  }
+  @keyframes dia-h-done-2 {
+    0%, 46% { opacity: 0; transform: scale(0.5); }
+    52%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.5); }
+  }
+  @keyframes dia-h-done-3 {
+    0%, 52% { opacity: 0; transform: scale(0.5); }
+    58%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.5); }
+  }
+
+  /* ── liquid glass pane ──
+     The orb's recipe as a rectangle: the surface refracts what is behind it, a
+     bright rim runs along the top edge where the light lands, and an inner
+     shadow at the foot gives the pane thickness. Used for the plate that
+     floats on a project card and for the badges that sit on the artwork. */
+  .glass-pane {
+    -webkit-backdrop-filter: blur(18px) saturate(1.8);
+    backdrop-filter: blur(18px) saturate(1.8);
+    background: linear-gradient(150deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.05) 60%, rgb(255 255 255 / 0.10));
+    border: 1px solid rgb(255 255 255 / 0.18);
+    box-shadow:
+      inset 0 1.5px 1px -0.5px rgb(255 255 255 / 0.55),
+      inset 0 -2px 3px -1px rgb(2 12 16 / 0.35),
+      0 10px 30px rgb(2 10 14 / 0.35);
+  }
+
+  /* ── project card ──
+     Closed it is artwork with a name on it. On approach the media brightens
+     and pushes in, and the glass plate unfolds the detail in reading order.
+     Everything animated is transform / opacity / filter, so the whole reveal
+     stays on the compositor. */
+  /* the wrapper owns the scroll entrance and the perspective; the card owns
+     the tilt, so GSAP's inline transform and the pointer lean never collide */
+  .work-card-wrap {
+    perspective: 1100px;
+  }
+  .work-card {
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  /* while the pointer is moving the lean should track it, not lag behind it */
+  .work-card:hover {
+    transition-duration: 0.12s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .work-card {
+      transform: none !important;
+    }
+  }
+
+  .work-media-inner {
+    filter: saturate(0.92) brightness(0.9);
+    will-change: filter;
+    transition: filter 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .work-still {
+    will-change: transform;
+    transition: transform 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  /* The scrim IS the caption's background now that the glass plate is gone, so
+     it has to do real work: opaque enough at the foot for white type, and long
+     enough that the hover detail still lands in darkness without the gradient
+     having to animate. Five stops rather than two — a two-stop ramp over this
+     distance bands visibly on a flat-ish photograph. */
+  .work-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* --card-ink is a near-black mixed from the project's own palette, set on
+       the card from the project data; the fallback is the site's sea. */
+    background: linear-gradient(
+      to top,
+      rgb(var(--card-ink, 3 12 16) / 0.92) 0%,
+      rgb(var(--card-ink, 3 12 16) / 0.78) 14%,
+      rgb(var(--card-ink, 3 12 16) / 0.5) 32%,
+      rgb(var(--card-ink, 3 12 16) / 0.22) 50%,
+      rgb(var(--card-ink, 3 12 16) / 0.06) 66%,
+      transparent 80%
+    );
+  }
+  /* Client marks arrive in whatever colour their own brand uses. On top of a
+     screenshot that is unreadable half the time, so they are flattened to
+     white — brightness(0) crushes every opaque pixel to black while keeping
+     the alpha channel, and invert then lifts it to white. Works the same for
+     an SVG with a hard-coded fill as for a transparent PNG. */
+  .work-logo {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgb(3 12 16 / 0.55));
+    opacity: 0.9;
+    transition: opacity 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .work-card:hover .work-logo,
+  .work-card:focus-within .work-logo {
+    opacity: 1;
+  }
+  .work-plate {
+    transform: translateX(var(--tilt-shift, 0px));
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  /* the name carries the type shadow the plate used to provide */
+  .work-name {
+    text-shadow: 0 1px 12px rgb(3 12 16 / 0.5);
+  }
+  /* The link IS the whole card now, as a real element rather than a pseudo
+     one: ::after resolved against the caption plate instead of the card, so
+     only the bottom strip was clickable. */
+  .work-link {
+    outline-offset: -3px;
+    border-radius: 26px;
+  }
+  .work-arrow {
+    transition:
+      transform 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+      background-color 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+      border-color 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  /* the detail block collapses to nothing when closed, so the plate is exactly
+     as tall as the name and the artwork keeps the space */
+  .work-detail-grid {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .work-detail-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+  /* The row opens first and the text follows it up: the delay is what stops
+     the detail sliding out of a gap that has not finished opening. */
+  .work-detail {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1) 90ms,
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 90ms;
+  }
+  .work-detail:nth-child(1) { transition-delay: 60ms; }
+  .work-detail:nth-child(2) { transition-delay: 130ms; }
+  .work-detail:nth-child(3) { transition-delay: 200ms; }
+
+  /* Only pointers that can hover get a hover state. On touch there is nothing
+     to hover with, so the plate is simply open — a phone user must not have to
+     guess that a tap-and-hold would have revealed the detail. */
+  @media (hover: hover) and (pointer: fine) {
+    /* Colour comes up on the whole media layer, but the zoom is on the still
+       only. The video plays on hover, and scaling the layer that holds it
+       cropped ~4.5% off every edge of a recording that was framed to fit. */
+    .work-card:hover .work-media-inner,
+    .work-card:focus-within .work-media-inner {
+      filter: saturate(1) brightness(1);
+    }
+    .work-card:hover .work-still,
+    .work-card:focus-within .work-still {
+      transform: scale(1.045);
+    }
+    .work-card:hover .work-detail-grid,
+    .work-card:focus-within .work-detail-grid {
+      grid-template-rows: 1fr;
+    }
+    .work-card:hover .work-detail,
+    .work-card:focus-within .work-detail {
+      opacity: 1;
+      transform: none;
+    }
+    .work-card:hover .work-arrow,
+    .work-card:focus-within .work-arrow {
+      transform: translate(2px, -2px);
+      /* the ring picks up the project's accent on approach, so even the
+         affordance belongs to the brand it is sitting on */
+      background-color: color-mix(in oklab, var(--card-accent, #00AAD4) 26%, transparent);
+      border-color: color-mix(in oklab, var(--card-accent, #00AAD4) 70%, white);
+    }
+  }
+  @media not all and (hover: hover) {
+    .work-card[data-size='lead'] .work-detail-grid,
+    .work-card[data-size='compact'] .work-detail-grid {
+      grid-template-rows: 1fr;
+    }
+    .work-detail {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-card[data-size='lead'] .work-detail-grid,
+    .work-card[data-size='compact'] .work-detail-grid {
+      grid-template-rows: 1fr;
+    }
+    .work-detail {
+      opacity: 1;
+      transform: none;
+    }
+    .work-media-inner {
+      transform: none !important;
+    }
+  }
+
+  /* the overflow marquee: mini cards streaming past, paused on hover so a
+     card you are reaching for stops running away from you */
+  .work-stream {
+    animation: work-stream-scroll 60s linear infinite;
+  }
+  .work-stream:hover,
+  .work-stream:focus-within {
+    animation-play-state: paused;
+  }
+  @keyframes work-stream-scroll {
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .work-stream { animation: none; }
+  }
+
+  /* folded product slice: the name reads bottom-to-top up the spine */
+  .acc-spine {
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
   }
 
   /* headline line-mask reveal: lines are wrapped in .line > .line-inner */
@@ -261,6 +801,31 @@
     left: 130%;
   }
 
+  /* The refracting pane for the page-wide ripple. Fixed, inert, and below the
+     nav's stacking context so the navigation never bends — a warped nav reads
+     as a rendering fault rather than as an effect.
+     Gecko is excluded: it supports backdrop-filter: url() but rasterises SVG
+     filters on the CPU, and a full-viewport one would drop frames badly. It
+     keeps the transform shockwave, which is a complete effect on its own. */
+  .ripple-refract {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+  }
+  @supports not (-moz-orient: inline) {
+    .ripple-refract {
+      -webkit-backdrop-filter: url(#vela-click-ripple);
+      backdrop-filter: url(#vela-click-ripple);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ripple-refract {
+      display: none;
+    }
+  }
+
   /* click-shockwave wavefront: a cyan ring expanding from the click point */
   .ripple-ring {
     position: fixed;
@@ -285,11 +850,15 @@
     to { stroke-dashoffset: -23; }
   }
 
-  /* voyage-chart waypoint lights up once the course has passed it, with one ping */
+  /* Voyage-chart waypoint: lights up once the course has passed it, with one
+     ping. It stays lit permanently and the chart runs behind body copy, so a
+     solid glowing disc parks itself under a paragraph and fights the text.
+     Lit is therefore a quiet half-strength dot with no bloom — the ping does
+     the announcing, the resting state stays out of the way. */
   .vl-wp-on {
-    background: var(--color-cyan);
-    border-color: var(--color-cyan);
-    box-shadow: 0 0 12px rgb(0 170 212 / 0.6);
+    background: rgb(0 170 212 / 0.45);
+    border-color: rgb(0 170 212 / 0.45);
+    box-shadow: none;
   }
   .vl-wp-on::after {
     content: "";
@@ -299,16 +868,788 @@
     border: 1px solid rgb(0 170 212 / 0.5);
     animation: waypoint-ping 1.1s ease-out forwards;
   }
+  /* ── diagram 2: search and Maps ──
+     One 7s loop: a query is typed, results come back, yours climbs from third
+     to first, and the pin drops on the map at the same moment it takes the
+     top spot. The climb and the pin are deliberately simultaneous — they are
+     the two halves of one claim, and staging them apart made the card read as
+     two unrelated animations sharing a box.
 
-  /* sonar ping used by the voyage-line comet */
-  @keyframes waypoint-ping {
-    0% { transform: scale(0.55); opacity: 0.9; }
-    70%, 100% { transform: scale(1.55); opacity: 0; }
+     Row spacing is 22, so overtaking two rows is exactly -44 and each
+     displaced row moves exactly +22. */
+
+  .dia-f-q, .dia-f-caret, .dia-f-res, .dia-f-pin, .dia-f-pinping {
+    transform-box: view-box;
+    transform-origin: center;
+  }
+  .dia-f-pinping {
+    fill: none;
+    stroke: var(--color-cyan);
+    stroke-width: 1.6;
+    opacity: 0;
+  }
+  .dia-f-caret { opacity: 0; }
+  /* streets read as light lanes cut through the blocks, the way a map does */
+  .dia-f-road {
+    stroke: currentColor;
+    stroke-opacity: 0.3;
+    fill: none;
+    stroke-linecap: square;
+  }
+  :root[data-theme="light"] .dia-f-road { stroke-opacity: 0.22; }
+  .dia-f-pinping { transform-origin: 143px 63px; }
+
+  /* Resting state: the query is typed, the results are in, yours is first and
+     the pin is placed. The claim survives with motion switched off. */
+  .dia-f-q { opacity: 1; }
+  .dia-f-res-a { transform: translateY(-44px); }
+  .dia-f-res-b { transform: translateY(22px); }
+  .dia-f-res-c { transform: translateY(22px); }
+  .dia-f-res { opacity: 1; }
+  .dia-f-pin { opacity: 1; }
+
+  .dia-run .dia-f-q1 { animation: dia-f-word-1 7s steps(1) infinite; }
+  .dia-run .dia-f-q2 { animation: dia-f-word-2 7s steps(1) infinite; }
+  .dia-run .dia-f-q3 { animation: dia-f-word-3 7s steps(1) infinite; }
+  .dia-run .dia-f-caret { animation: dia-f-caret 7s linear infinite; }
+
+  .dia-run .dia-f-res-b { animation: dia-f-demote-1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-f-res-c { animation: dia-f-demote-2 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-f-res-a { animation: dia-f-climb 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+
+  .dia-run .dia-f-pin { animation: dia-f-pin 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-f-pinping { animation: dia-f-pinping 7s ease-out infinite; }
+
+  /* each word of the query lands, then the whole query clears for the retype.
+     The caret positions below are keyed to these same three beats. */
+  @keyframes dia-f-word-1 {
+    0% { opacity: 0; } 4% { opacity: 1; } 92% { opacity: 0; } 100% { opacity: 0; }
+  }
+  @keyframes dia-f-word-2 {
+    0% { opacity: 0; } 9% { opacity: 1; } 92% { opacity: 0; } 100% { opacity: 0; }
+  }
+  @keyframes dia-f-word-3 {
+    0% { opacity: 0; } 14% { opacity: 1; } 92% { opacity: 0; } 100% { opacity: 0; }
+  }
+  /* the caret steps along behind the words, then leaves once typing stops */
+  @keyframes dia-f-caret {
+    0%, 3.9% { opacity: 1; transform: translateX(-61px); }
+    4%, 8.9% { opacity: 1; transform: translateX(-42px); }
+    9%, 13.9% { opacity: 1; transform: translateX(-16px); }
+    14%, 17% { opacity: 1; transform: none; }
+    18%, 100% { opacity: 0; transform: none; }
   }
 
-  /* Liquid glass: the panel itself carries the cross-browser blur; the refraction
-     rides a pseudo-element with a pure url() backdrop-filter, because mixing url()
-     with filter functions in one declaration kills the whole backdrop in Chromium. */
+  /* the two incumbents appear first, then get pushed down a place */
+  @keyframes dia-f-demote-1 {
+    0%, 18% { opacity: 0; transform: translateY(-8px); }
+    24%, 36% { opacity: 1; transform: none; }
+    48%, 88% { opacity: 1; transform: translateY(22px); }
+    96%, 100% { opacity: 0; transform: translateY(-8px); }
+  }
+  @keyframes dia-f-demote-2 {
+    0%, 21% { opacity: 0; transform: translateY(-8px); }
+    27%, 36% { opacity: 1; transform: none; }
+    48%, 88% { opacity: 1; transform: translateY(22px); }
+    96%, 100% { opacity: 0; transform: translateY(-8px); }
+  }
+  /* yours arrives third and overtakes both */
+  @keyframes dia-f-climb {
+    0%, 24% { opacity: 0; transform: translateY(10px); }
+    30%, 36% { opacity: 1; transform: none; }
+    48%, 88% { opacity: 1; transform: translateY(-44px); }
+    96%, 100% { opacity: 0; transform: translateY(10px); }
+  }
+
+  /* the pin lands as the climb completes */
+  @keyframes dia-f-pin {
+    0%, 38% { opacity: 0; transform: translateY(-20px) scale(0.7); }
+    50%, 88% { opacity: 1; transform: none; }
+    96%, 100% { opacity: 0; transform: translateY(-20px) scale(0.7); }
+  }
+  @keyframes dia-f-pinping {
+    0%, 47% { opacity: 0; transform: scale(0.4); }
+    50% { opacity: 0.8; transform: scale(0.5); }
+    62%, 100% { opacity: 0; transform: scale(2); }
+  }
+
+  /* ── diagram 3: the one that gets looked at ──
+     Three shops on one row. The neighbours never animate at all — they are
+     the control, and the only honest way to show "stands out" is to leave
+     them exactly as they were.
+
+     The middle card composes, then lifts 14px clear of the row. The lift
+     starts at 46%, the moment the brand finishes landing and before the loop
+     has said anything about what is being sold: looks are the first
+     impression. */
+
+  .dia-c-card, .dia-c-hero, .dia-c-t1, .dia-c-t2, .dia-c-chip,
+  .dia-c-guide, .dia-c-on, .dia-c-ring, .dia-c-glow {
+    transform-box: view-box;
+  }
+  .dia-c-card { transform-origin: 88px 56px; }
+  .dia-c-hero { transform-origin: 88px 46px; }
+  .dia-c-t1 { transform-origin: 83px 63.5px; }
+  .dia-c-t2 { transform-origin: 80px 72px; }
+  .dia-c-chip { transform-origin: 99px 63.5px; }
+  .dia-c-glow { transform-origin: 88px 88px; }
+  .dia-c-ring {
+    fill: none;
+    stroke: var(--color-cyan);
+    stroke-width: 1.5;
+    opacity: 0;
+    transform-origin: 88px 56px;
+  }
+  /* strong enough to read as a brand landing on the card, not a wash */
+  .dia-c-on-hero { fill: var(--color-cyan); fill-opacity: 0.3; }
+  .dia-c-glow { fill-opacity: 0.14; }
+
+  /* Resting state — designed, branded, and up off the row. The whole claim in
+     one still frame, which is what motion-off users get. */
+  .dia-c-guide { opacity: 0; }
+  .dia-c-on { opacity: 1; }
+  .dia-c-chip { opacity: 1; }
+  .dia-c-card { transform: translateY(-14px); }
+
+  .dia-run .dia-c-card { animation: dia-c-lift 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-c-glow { animation: dia-c-glow 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-c-ring { animation: dia-c-ring 7s ease-out infinite; }
+  .dia-run .dia-c-hero { animation: dia-c-hero 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-c-t1 { animation: dia-c-t1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-c-t2 { animation: dia-c-t2 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-c-guide { animation: dia-c-guide 7s ease-out infinite; }
+  .dia-run .dia-c-on-hero { animation: dia-c-brand-1 7s ease-out infinite; }
+  .dia-run .dia-c-edge { animation: dia-c-brand-1 7s ease-out infinite; }
+  .dia-run .dia-c-on-t1 { animation: dia-c-brand-2 7s ease-out infinite; }
+  .dia-run .dia-c-chip { animation: dia-c-chip 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+
+  /* content drops in crooked, then snaps to the grid at 26% */
+  @keyframes dia-c-hero {
+    0%, 8% { opacity: 0; transform: translate(-5px, 3px) rotate(-3deg); }
+    14%, 26% { opacity: 1; transform: translate(-5px, 3px) rotate(-3deg); }
+    31%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translate(-5px, 3px) rotate(-3deg); }
+  }
+  @keyframes dia-c-t1 {
+    0%, 12% { opacity: 0; transform: translate(4px, -2px) rotate(2.2deg); }
+    18%, 26% { opacity: 1; transform: translate(4px, -2px) rotate(2.2deg); }
+    31%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translate(4px, -2px) rotate(2.2deg); }
+  }
+  @keyframes dia-c-t2 {
+    0%, 15% { opacity: 0; transform: translate(-3px, 3px) rotate(-1.8deg); }
+    21%, 26% { opacity: 1; transform: translate(-3px, 3px) rotate(-1.8deg); }
+    31%, 90% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translate(-3px, 3px) rotate(-1.8deg); }
+  }
+  /* guides show themselves only during the snap, the way guides do */
+  @keyframes dia-c-guide {
+    0%, 24% { opacity: 0; }
+    27%, 33% { opacity: 0.55; }
+    40%, 100% { opacity: 0; }
+  }
+  /* the brand lands: tint and edge, then type, then the mark */
+  @keyframes dia-c-brand-1 {
+    0%, 34% { opacity: 0; }
+    42%, 90% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+  @keyframes dia-c-brand-2 {
+    0%, 36% { opacity: 0; }
+    44%, 90% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+  @keyframes dia-c-chip {
+    0%, 38% { opacity: 0; transform: scale(0.2); }
+    46%, 90% { opacity: 1; transform: none; }
+    96%, 100% { opacity: 0; transform: scale(0.2); }
+  }
+
+  /* and it rises above the row */
+  @keyframes dia-c-lift {
+    0%, 46% { transform: none; }
+    56%, 92% { transform: translateY(-14px); }
+    99%, 100% { transform: none; }
+  }
+  @keyframes dia-c-glow {
+    0%, 46% { opacity: 0; transform: scaleX(0.6); }
+    58%, 92% { opacity: 1; transform: none; }
+    99%, 100% { opacity: 0; transform: scaleX(0.6); }
+  }
+  /* one ring of notice as it clears the others */
+  @keyframes dia-c-ring {
+    0%, 54% { opacity: 0; transform: scale(0.96); }
+    58% { opacity: 0.7; transform: scale(1); }
+    74%, 100% { opacity: 0; transform: scale(1.16); }
+  }
+
+  /* ── diagram 4: one shot, three places ──
+     Each destination is a chain: its wire draws, the photograph slides in
+     along it, then that platform's own furniture assembles around the
+     picture. The three chains are staggered by 6% (0.42s) so the eye can
+     follow one asset arriving three times rather than three things at once.
+
+     The wires use pathLength="1", so dashoffset 1 → 0 draws any curve fully
+     without anyone measuring a bezier. */
+
+  .dia-r-master, .dia-r-frame, .dia-r-shot, .dia-r-ui, .dia-r-flash {
+    transform-box: view-box;
+  }
+  .dia-r-master { transform-origin: 32px 50px; }
+  .dia-r-frame { transform-origin: 32px 50px; }
+  .dia-r-shot-1 { transform-origin: 114px 18px; }
+  .dia-r-shot-2 { transform-origin: 111px 53px; }
+  .dia-r-shot-3 { transform-origin: 126px 84.5px; }
+  .dia-r-wire {
+    stroke-width: 1.6;
+    stroke-opacity: 0.55;
+    stroke-dasharray: 1;
+  }
+  .dia-r-flash { fill: var(--color-white); opacity: 0; }
+
+  /* Resting state — the shot, and the same shot living in all three places.
+     The claim survives with motion switched off. */
+  .dia-r-master { opacity: 1; }
+  .dia-r-frame { opacity: 0; }
+  .dia-r-wire { stroke-dashoffset: 0; }
+  .dia-r-shot, .dia-r-ui { opacity: 1; }
+
+  .dia-run .dia-r-master { animation: dia-r-master 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-r-frame { animation: dia-r-frame 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-r-flash { animation: dia-r-flash 7s ease-out infinite; }
+
+  .dia-run .dia-r-wire-1 { animation: dia-r-wire-1 7s ease-in-out infinite; }
+  .dia-run .dia-r-wire-2 { animation: dia-r-wire-2 7s ease-in-out infinite; }
+  .dia-run .dia-r-wire-3 { animation: dia-r-wire-3 7s ease-in-out infinite; }
+  .dia-run .dia-r-shot-1 { animation: dia-r-shot-1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-r-shot-2 { animation: dia-r-shot-2 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-r-shot-3 { animation: dia-r-shot-3 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-r-ui-1 { animation: dia-r-ui-1 7s ease-out infinite; }
+  .dia-run .dia-r-ui-2 { animation: dia-r-ui-2 7s ease-out infinite; }
+  .dia-run .dia-r-ui-3 { animation: dia-r-ui-3 7s ease-out infinite; }
+
+  /* the frame is taken */
+  @keyframes dia-r-master {
+    0% { opacity: 0; transform: scale(0.9); }
+    6%, 92% { opacity: 1; transform: none; }
+    99%, 100% { opacity: 0; transform: scale(0.9); }
+  }
+  @keyframes dia-r-frame {
+    0% { opacity: 0; transform: scale(1.14); }
+    4% { opacity: 0.9; transform: scale(1.14); }
+    9% { opacity: 0.9; transform: none; }
+    15%, 100% { opacity: 0; transform: none; }
+  }
+  @keyframes dia-r-flash {
+    0%, 8% { opacity: 0; }
+    10% { opacity: 0.55; }
+    17%, 100% { opacity: 0; }
+  }
+
+  /* …and travels, one destination at a time */
+  @keyframes dia-r-wire-1 {
+    0%, 16% { stroke-dashoffset: 1; }
+    26%, 92% { stroke-dashoffset: 0; }
+    99%, 100% { stroke-dashoffset: 1; }
+  }
+  @keyframes dia-r-wire-2 {
+    0%, 22% { stroke-dashoffset: 1; }
+    32%, 92% { stroke-dashoffset: 0; }
+    99%, 100% { stroke-dashoffset: 1; }
+  }
+  @keyframes dia-r-wire-3 {
+    0%, 28% { stroke-dashoffset: 1; }
+    38%, 92% { stroke-dashoffset: 0; }
+    99%, 100% { stroke-dashoffset: 1; }
+  }
+  @keyframes dia-r-shot-1 {
+    0%, 24% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+    32%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+  }
+  @keyframes dia-r-shot-2 {
+    0%, 30% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+    38%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+  }
+  @keyframes dia-r-shot-3 {
+    0%, 36% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+    44%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateX(-30px) scale(0.5); }
+  }
+  /* the platform builds itself around the picture */
+  @keyframes dia-r-ui-1 {
+    0%, 32% { opacity: 0; }
+    39%, 92% { opacity: 1; }
+    98%, 100% { opacity: 0; }
+  }
+  @keyframes dia-r-ui-2 {
+    0%, 38% { opacity: 0; }
+    45%, 92% { opacity: 1; }
+    98%, 100% { opacity: 0; }
+  }
+  @keyframes dia-r-ui-3 {
+    0%, 44% { opacity: 0; }
+    51%, 92% { opacity: 1; }
+    98%, 100% { opacity: 0; }
+  }
+
+  /* ── diagram 5: the machine works, you decide ──
+     Two panels and a strict order between them. The three tasks tick at 20%,
+     32% and 44%; only then does the connector draw and the choice panel
+     arrive. Running them in parallel would say "these happen at the same
+     time", which is the opposite of the claim — the software finishes the
+     routine work and hands you what is left.
+
+     The gear is the one thing on its own clock. Everything a gear means
+     depends on it never stopping, so it turns straight through the reset
+     while the panels around it rebuild. */
+
+  .dia-a-machine, .dia-a-gear, .dia-a-row, .dia-a-done,
+  .dia-a-hand, .dia-a-choice, .dia-a-pick, .dia-a-pick-ping {
+    transform-box: view-box;
+  }
+  .dia-a-gear { transform-origin: 18px 26px; }
+  .dia-a-choice { transform-origin: 135px 50px; }
+  .dia-a-pick, .dia-a-pick-ping { transform-origin: 150px 55px; }
+  .dia-a-hand > path { stroke-dasharray: 1; }
+  .dia-a-pick-ping {
+    fill: none;
+    stroke: var(--color-cyan);
+    stroke-width: 1.5;
+    opacity: 0;
+  }
+
+  /* Resting state — the work is done and the call has been made. The whole
+     claim in one still frame, which is what motion-off users get. */
+  .dia-a-machine, .dia-a-choice, .dia-a-hand, .dia-a-pick { opacity: 1; }
+  .dia-a-done { opacity: 1; }
+  .dia-a-hand > path { stroke-dashoffset: 0; }
+
+  .dia-run .dia-a-gear { animation: dia-a-spin 3.5s linear infinite; }
+  .dia-run .dia-a-machine { animation: dia-a-machine 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-done-1 { animation: dia-a-done-1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-done-2 { animation: dia-a-done-2 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-done-3 { animation: dia-a-done-3 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-hand > path { animation: dia-a-hand 7s ease-in-out infinite; }
+  .dia-run .dia-a-choice { animation: dia-a-choice 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-pick { animation: dia-a-pick 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-a-pick-ping { animation: dia-a-pick-ping 7s ease-out infinite; }
+
+  /* half the loop per turn, so it reads as running rather than drifting */
+  @keyframes dia-a-spin { to { transform: rotate(360deg); } }
+
+  @keyframes dia-a-machine {
+    0% { opacity: 0; transform: translateX(-6px); }
+    7%, 92% { opacity: 1; transform: none; }
+    99%, 100% { opacity: 0; transform: translateX(-6px); }
+  }
+  /* it ticks its own list off */
+  @keyframes dia-a-done-1 {
+    0%, 16% { opacity: 0; transform: scale(0.4); }
+    22%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dia-a-done-2 {
+    0%, 28% { opacity: 0; transform: scale(0.4); }
+    34%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes dia-a-done-3 {
+    0%, 40% { opacity: 0; transform: scale(0.4); }
+    46%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: scale(0.4); }
+  }
+  /* only then does it hand the last one over */
+  @keyframes dia-a-hand {
+    0%, 48% { stroke-dashoffset: 1; }
+    56%, 92% { stroke-dashoffset: 0; }
+    99%, 100% { stroke-dashoffset: 1; }
+  }
+  @keyframes dia-a-choice {
+    0%, 54% { opacity: 0; transform: translateX(8px) scale(0.94); }
+    62%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateX(8px) scale(0.94); }
+  }
+  /* and you make the call */
+  @keyframes dia-a-pick {
+    0%, 68% { opacity: 0; transform: scale(0.7); }
+    75%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: scale(0.7); }
+  }
+  @keyframes dia-a-pick-ping {
+    0%, 72% { opacity: 0; transform: scale(0.9); }
+    75% { opacity: 0.8; transform: scale(1); }
+    88%, 100% { opacity: 0; transform: scale(1.5); }
+  }
+
+  /* ── diagram 6: named in the answer ──
+     The reply writes itself in runs, left to right, and the beat that matters
+     is the gap: the left half of line two lands at 38%, and your name does not
+     appear until 44%. That pause is what makes it read as being named
+     mid-sentence rather than as three bars fading in together.
+
+     The sparkle runs on its own 2.33s clock (7s / 3, so the seam is invisible)
+     because an assistant that stops thinking between loops is a dead icon. */
+
+  .dia-n-ask, .dia-n-panel, .dia-n-spark, .dia-n-name, .dia-n-ping,
+  .dia-n-cite, .dia-n-w1, .dia-n-w2a, .dia-n-w2b, .dia-n-w3 {
+    transform-box: view-box;
+  }
+  .dia-n-ask { transform-origin: 130px 15px; }
+  .dia-n-panel { transform-origin: 88px 65px; }
+  .dia-n-spark { transform-origin: 24px 50px; }
+  .dia-n-name, .dia-n-ping { transform-origin: 84px 61px; }
+  .dia-n-cite { transform-origin: 40px 85px; }
+  /* each run of text grows from where it starts, so it reads as written
+     rather than as a bar sliding in from somewhere */
+  .dia-n-w1 { transform-origin: 40px 50px; }
+  .dia-n-w2a { transform-origin: 40px 61px; }
+  .dia-n-w2b { transform-origin: 110px 61px; }
+  .dia-n-w3 { transform-origin: 40px 74.5px; }
+  .dia-n-ping {
+    fill: none;
+    stroke: var(--color-cyan);
+    stroke-width: 1.5;
+    opacity: 0;
+  }
+
+  /* Resting state — the question asked and answered, with you named in it.
+     The whole claim in one still frame, which is what motion-off users get. */
+  .dia-n-ask, .dia-n-panel, .dia-n-spark, .dia-n-name, .dia-n-cite { opacity: 1; }
+  .dia-n-w1, .dia-n-w2a, .dia-n-w2b, .dia-n-w3 { opacity: 1; }
+
+  .dia-run .dia-n-spark { animation: dia-n-spark 2.33s ease-in-out infinite; }
+  .dia-run .dia-n-ask { animation: dia-n-ask 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-panel { animation: dia-n-panel 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-w1 { animation: dia-n-w1 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-w2a { animation: dia-n-w2a 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-name { animation: dia-n-name 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-ping { animation: dia-n-ping 7s ease-out infinite; }
+  .dia-run .dia-n-w2b { animation: dia-n-w2b 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-w3 { animation: dia-n-w3 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+  .dia-run .dia-n-cite { animation: dia-n-cite 7s cubic-bezier(0.16,1,0.3,1) infinite; }
+
+  @keyframes dia-n-spark {
+    0%, 100% { opacity: 0.75; transform: scale(0.88) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.12) rotate(45deg); }
+  }
+
+  /* the question */
+  @keyframes dia-n-ask {
+    0%, 2% { opacity: 0; transform: translateX(14px); }
+    10%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateX(14px); }
+  }
+  @keyframes dia-n-panel {
+    0%, 12% { opacity: 0; transform: translateY(8px) scale(0.97); }
+    22%, 92% { opacity: 1; transform: none; }
+    98%, 100% { opacity: 0; transform: translateY(8px) scale(0.97); }
+  }
+
+  /* the reply, one run at a time */
+  @keyframes dia-n-w1 {
+    0%, 24% { opacity: 0; transform: scaleX(0); }
+    32%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scaleX(0); }
+  }
+  @keyframes dia-n-w2a {
+    0%, 33% { opacity: 0; transform: scaleX(0); }
+    38%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scaleX(0); }
+  }
+  /* the pause before this is the whole point */
+  @keyframes dia-n-name {
+    0%, 44% { opacity: 0; transform: scale(0.5); }
+    51%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scale(0.5); }
+  }
+  @keyframes dia-n-ping {
+    0%, 48% { opacity: 0; transform: scale(0.94); }
+    51% { opacity: 0.85; transform: scale(1); }
+    64%, 100% { opacity: 0; transform: scale(1.35); }
+  }
+  @keyframes dia-n-w2b {
+    0%, 53% { opacity: 0; transform: scaleX(0); }
+    58%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scaleX(0); }
+  }
+  @keyframes dia-n-w3 {
+    0%, 60% { opacity: 0; transform: scaleX(0); }
+    67%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: scaleX(0); }
+  }
+  /* credited underneath, once the sentence is finished */
+  @keyframes dia-n-cite {
+    0%, 70% { opacity: 0; transform: translateY(5px); }
+    78%, 92% { opacity: 1; transform: none; }
+    97%, 100% { opacity: 0; transform: translateY(5px); }
+  }
+
+  /* ── scroll reveal ──
+     Moved off GSAP. These are plain fade-and-rise entrances on ~15 elements,
+     and ScrollTrigger was measuring every one of them during its initial
+     refresh — real main-thread cost for an effect a transition does for free
+     on the compositor. An IntersectionObserver adds `.is-in` and CSS does the
+     rest; the stagger comes from a delay set per element as it enters. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: transform, opacity;
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  /* Motion off: no entrance at all, content simply present. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ── difference cards: skip what is off screen ──
+     Six translucent cards each run a backdrop blur, and the browser was
+     rasterising all six every frame even though only about three are ever in
+     view. Measured at 1440: 27fps with all six live, 42fps once the off-screen
+     ones are skipped — the same gain as dropping the blur radius from 24px to
+     10px, but without touching how the glass looks.
+
+     `contain-intrinsic-size: auto ...` matters: the `auto` keyword tells the
+     browser to remember each card's last rendered height, so a card that
+     scrolls away and back does not collapse to the placeholder size and shove
+     the page around. The length is only the first guess. */
+  .shift-cell {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 340px;
+  }
+
+  /* ── low-capability tier ──
+     Set by src/lib/perf-tier.ts from hardware hints plus a real frame-rate
+     probe. Nothing here fires on a device that can hold 60fps; these are the
+     layers a weak one cannot rasterise in a frame budget.
+
+     What goes: backdrop blur (the single most expensive thing on the page —
+     eleven surfaces, each re-sampling what is behind it every frame) and the
+     SVG displacement refraction. What stays: layout, type, colour, radius,
+     borders, shadows and every animation. The page still looks like itself;
+     the glass becomes a tint instead of a lens. */
+  :root[data-perf='low'] .glass-refract,
+  :root[data-perf='low'] .glass-pane,
+  :root[data-perf='low'] .glass-orb,
+  :root[data-perf='low'] .vela-dialog::backdrop,
+  :root[data-perf='low'] .vela-glass-field,
+  :root[data-perf='low'] .shift-cell {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :root[data-perf='low'] .glass-refract-deep::before,
+  :root[data-perf='low'] .ripple-refract {
+    display: none;
+  }
+  /* the panes were translucent because a blur sat behind them; without it they
+     need enough of their own body to keep text legible */
+  :root[data-perf='low'] .glass-refract {
+    background: color-mix(in srgb, var(--srf2) 92%, transparent);
+  }
+  :root[data-perf='low'] .glass-orb {
+    background: color-mix(in srgb, var(--srf2) 88%, transparent);
+  }
+  :root[data-perf='low'] .vela-dialog::backdrop {
+    background: rgb(3 14 19 / 0.86);
+  }
+  /* grain is a fixed full-viewport layer that repaints with the page */
+  :root[data-perf='low'] .grain::after {
+    display: none;
+  }
+
+  /* ── footer idle ──
+     The page ends at the sea, so the footer's only ambient motion is a
+     waterline. Each wave path is drawn twice end to end inside a 200%-wide
+     svg and translated by exactly half its width, so the loop closes on
+     itself with no visible restart. Two of them at different speeds and
+     depths give the parallax that makes a flat line read as water. */
+  .foot-sea {
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+  .foot-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 60px;
+  }
+  .foot-wave-back {
+    animation: foot-drift 26s linear infinite;
+    opacity: 0.75;
+  }
+  .foot-wave-front {
+    animation: foot-drift 17s linear infinite reverse;
+  }
+  @keyframes foot-drift {
+    to { transform: translateX(-50%); }
+  }
+
+  /* the horizon breathing under it */
+  .foot-glow {
+    background: radial-gradient(1100px 320px at 50% 122%, rgb(0 170 212 / 0.2), transparent 70%);
+    animation: foot-breathe 9s ease-in-out infinite;
+  }
+  @keyframes foot-breathe {
+    0%, 100% { opacity: 0.75; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-6px); }
+  }
+
+  /* the closing lockup rides the swell, very slightly */
+  .foot-lockup {
+    animation: foot-float 11s ease-in-out infinite;
+  }
+  @keyframes foot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  /* the address underlines itself from the left on approach */
+  .foot-mail {
+    background-image: linear-gradient(var(--color-cyan), var(--color-cyan));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    transition:
+      background-size 0.55s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.35s ease;
+  }
+  .foot-mail:hover,
+  .foot-mail:focus-visible {
+    color: var(--color-cyan);
+    background-size: 100% 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .foot-wave, .foot-glow, .foot-lockup { animation: none; }
+  }
+
+  /* ── liquid glass orb ──
+     A thin flat pane, not a sphere.
+     The previous version put a large soft highlight in the middle of the face,
+     which is the signature of a glossy 3D bubble and reads as cheap. Real
+     glass does the opposite: the face stays almost flat and nearly clear, and
+     all the light collects at the RIM, where the curve of the edge bends it.
+     So the face here is a near-flat 6% wash over a blurred, slightly
+     over-saturated backdrop, and every highlight lives in a 1px ring — bright
+     where the light lands at the top-left, dim across the middle, and picking
+     up again as a faint bounce on the opposite edge.
+     The cast shadow is small and tight for the same reason: a thin pane sits
+     on the page, it does not float above it. */
+  .glass-orb {
+    position: relative;
+    isolation: isolate;
+    -webkit-backdrop-filter: blur(12px) saturate(1.9) brightness(1.08);
+    backdrop-filter: blur(12px) saturate(1.9) brightness(1.08);
+    background: rgb(255 255 255 / 0.06);
+    box-shadow:
+      inset 0 -6px 12px -8px rgb(2 12 16 / 0.5),
+      0 2px 8px rgb(2 12 16 / 0.22);
+    transition:
+      background-color 0.6s cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 0.6s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  /* the rim: the whole trick. A 1px ring, lit where the light falls and
+     falling away around the curve. */
+  .glass-orb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      142deg,
+      rgb(255 255 255 / 0.8) 0%,
+      rgb(255 255 255 / 0.28) 22%,
+      rgb(255 255 255 / 0.06) 46%,
+      rgb(255 255 255 / 0.14) 74%,
+      rgb(255 255 255 / 0.42) 100%
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+  /* on paper the pane has to darken to be seen at all, and its rim inverts:
+     the bright edge becomes a shadowed one */
+  :root[data-theme="light"] .glass-orb {
+    background: rgb(255 255 255 / 0.55);
+    box-shadow:
+      inset 0 -6px 12px -8px rgb(12 30 38 / 0.22),
+      0 2px 8px rgb(12 30 38 / 0.1);
+  }
+  :root[data-theme="light"] .glass-orb::before {
+    background: linear-gradient(
+      142deg,
+      rgb(255 255 255 / 0.95) 0%,
+      rgb(255 255 255 / 0.5) 20%,
+      rgb(12 30 38 / 0.1) 52%,
+      rgb(12 30 38 / 0.16) 78%,
+      rgb(12 30 38 / 0.08) 100%
+    );
+  }
+
+  /* Reached: the same pane, with brand colour sitting BEHIND the glass rather
+     than painted onto it — a tint plus the same rim, not a coloured bubble. */
+  .glass-orb-on {
+    background: rgb(0 170 212 / 0.85);
+    color: var(--color-sea);
+    box-shadow:
+      inset 0 -6px 12px -8px rgb(0 50 66 / 0.55),
+      0 2px 12px rgb(0 170 212 / 0.28);
+  }
+  :root[data-theme="light"] .glass-orb-on {
+    background: rgb(0 170 212 / 0.92);
+    box-shadow:
+      inset 0 -6px 12px -8px rgb(0 50 66 / 0.32),
+      0 2px 12px rgb(0 170 212 / 0.26);
+  }
+  .glass-orb-on::before,
+  :root[data-theme="light"] .glass-orb-on::before {
+    background: linear-gradient(
+      142deg,
+      rgb(255 255 255 / 0.85) 0%,
+      rgb(255 255 255 / 0.3) 24%,
+      rgb(255 255 255 / 0.05) 52%,
+      rgb(0 60 78 / 0.18) 100%
+    );
+  }
+  /* one ping as the course reaches the waypoint */
+  .glass-orb-on::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgb(0 170 212 / 0.5);
+    animation: waypoint-ping 1.1s ease-out forwards;
+    pointer-events: none;
+  }
+
+  /* ── the glass everything floating is made of ──
+     Chromium drops the WHOLE backdrop-filter declaration if url() is mixed
+     with blur() in one value, so the two effects are split across two layers:
+     `.glass-refract` carries the plain blur on the panel itself, and
+     `.glass-refract-deep::before` carries the pure url() displacement on top.
+     Deep refraction is for floating chrome only (nav, mobile menu); cards take
+     the blur alone over a translucent background. */
   .glass-refract {
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
     backdrop-filter: blur(24px) saturate(1.4);
@@ -323,6 +1664,13 @@
       backdrop-filter: blur(14px) saturate(1.3);
     }
   }
+  /* Measured cost, section in view at 1440: six refracting cards took the page
+     from 27fps to 14fps — the displacement filter re-rasterises the backdrop
+     every frame, and it does not tile, so the price scales with area. It is
+     affordable on the nav (one small pill, always on screen) and ruinous on a
+     grid. That is why the original rule was "floating chrome only"; the
+     difference cards now take the plain blur, which reads as glass without the
+     per-frame filter. */
   @media (min-width: 768px) {
     .glass-refract-deep::before {
       content: "";
@@ -335,7 +1683,129 @@
     }
   }
 
-  /* React Bits-style StarBorder: a point of light orbiting the pill's edge */
+  /* ── the contact modal ──
+     A native <dialog>, so the top layer and the focus trap come free. The
+     panel keeps a fixed dark base in BOTH themes rather than following the
+     page: it floats over a blurred veil, and a translucent panel over an
+     unpredictable backdrop cannot hold 4.5:1 for its white text. */
+  .vela-dialog {
+    width: min(680px, calc(100vw - 2rem));
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    margin: auto;
+    background: transparent;
+    color: var(--color-white);
+    overflow: visible;
+  }
+  .vela-dialog::backdrop {
+    background: rgb(3 14 19 / 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    opacity: 0;
+    animation: dialog-veil 0.32s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+  .vela-dialog[data-closing]::backdrop {
+    animation: dialog-veil 0.2s ease-in reverse forwards;
+  }
+  @keyframes dialog-veil {
+    to { opacity: 1; }
+  }
+
+  .vela-dialog-panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 26px;
+    /* the glass itself: dark base + rim light + a cyan bloom underneath */
+    background: linear-gradient(158deg, rgb(18 64 78 / 0.62), rgb(7 30 38 / 0.78));
+    border: 1px solid rgb(255 255 255 / 0.14);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      inset 0 -1px 0 rgb(255 255 255 / 0.05),
+      0 40px 90px rgb(2 10 14 / 0.6),
+      0 0 0 1px rgb(0 170 212 / 0.12);
+    animation: dialog-rise 0.44s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .vela-dialog[data-closing] .vela-dialog-panel {
+    animation: dialog-rise 0.2s ease-in reverse forwards;
+  }
+  @keyframes dialog-rise {
+    from { opacity: 0; transform: translateY(22px) scale(0.97); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .vela-dialog-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.22) transparent;
+  }
+  .vela-dialog-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .vela-dialog-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .vela-dialog-scroll::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 0.2);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .vela-dialog-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(255 255 255 / 0.36);
+    background-clip: content-box;
+  }
+
+  /* glass form fields: translucent, rim-lit, and still 4.5:1 for white text
+     because the panel underneath is a fixed dark base rather than the page */
+  .vela-glass-field {
+    display: block;
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.07);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    padding: 0.85rem 1rem;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-white);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1);
+    outline: none;
+    transition:
+      border-color 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      background-color 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .vela-glass-field::placeholder {
+    /* #9fbac3 on the panel base clears 4.5:1; anything fainter does not */
+    color: var(--color-mist);
+    opacity: 1;
+  }
+  .vela-glass-field:hover {
+    border-color: rgb(255 255 255 / 0.3);
+  }
+  .vela-glass-field:focus-visible {
+    border-color: var(--color-cyan);
+    background: rgb(255 255 255 / 0.11);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 0 0 3px rgb(0 170 212 / 0.28);
+  }
+  /* the error state carries a border AND the message below it, never colour
+     alone — colour is not available to every reader */
+  .vela-glass-field-invalid {
+    border-color: rgb(255 138 138 / 0.85);
+    background: rgb(255 90 90 / 0.08);
+  }
+  .vela-glass-field-invalid:focus-visible {
+    border-color: rgb(255 138 138);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 0 0 3px rgb(255 90 90 / 0.26);
+  }
+
+  /* React Bits-style StarBorder: a point of light orbiting the pill */
   .orbit-border {
     position: relative;
   }
@@ -396,10 +1866,38 @@
   }
 }
 
+/* A WebGL canvas whose context is lost composites as an opaque WHITE quad in
+   Chromium. Canvases stay hidden until a frame has actually landed. */
+.gl-dead {
+  opacity: 0;
+}
+
+/* ── reduced motion ──
+   Not a blanket kill. Ambient, looping and scroll-driven motion stops, because
+   that is what makes people ill; state feedback (hover, focus, open/close)
+   keeps a short transition, because removing it removes the interface's
+   ability to say that something happened. */
 @media (prefers-reduced-motion: reduce) {
+  /* ambient loops and decorative drifts: off */
+  .liquid-sheen,
+  .vl-plan,
+  .orbit-border::before,
+  .vl-wp-on::after,
+  .animate-pulse {
+    animation: none !important;
+  }
+  .liquid-sheen {
+    transform: translate(20%, 12%) scale(1.1);
+  }
+  /* the grain is static texture, not motion — it stays */
+  /* state feedback: quick, but present */
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* long choreographed transitions collapse to feedback-length ones */
+  .rm-static {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

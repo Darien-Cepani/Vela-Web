@@ -1,0 +1,58 @@
+# vela.al
+
+User-agent: *
+Allow: /
+
+# ── Assistant and answer-engine crawlers ──
+# These are already covered by the wildcard above. They are named explicitly
+# because being cited by an assistant is a goal here, not a side effect, and an
+# explicit Allow survives a future tightening of the default. Two distinct jobs
+# are involved and both matter: the *-Bot agents build the index an assistant
+# searches, while the *-User agents fetch a page live when someone asks a
+# question that needs it.
+
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic / Claude
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+
+# Google Gemini grounding and AI Overviews. Blocking this does NOT affect
+# ordinary Google Search ranking, and allowing it is what permits Gemini to
+# surface the site.
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft Copilot
+User-agent: bingbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl, which many models train from
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://vela.al/sitemap.xml

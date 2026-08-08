@@ -1,3 +1,4 @@
+import { initPerfTier } from './lib/perf-tier'
 import { StrictMode, useCallback, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@astryxdesign/core/reset.css'
@@ -9,6 +10,7 @@ import { Theme } from '@astryxdesign/core'
 import { velaTheme } from './theme/vela.js'
 import './theme/vela.css'
 import { ThemeModeProvider } from './theme-context'
+import { RouterProvider } from './lib/router'
 import App from './App.tsx'
 
 // stamp the stored theme before first paint to avoid a flash
@@ -22,11 +24,15 @@ function Root() {
   return (
     <Theme theme={velaTheme} mode={mode}>
       <ThemeModeProvider onChange={onChange}>
-        <App />
+        <RouterProvider>
+          <App />
+        </RouterProvider>
       </ThemeModeProvider>
     </Theme>
   )
 }
+
+initPerfTier()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

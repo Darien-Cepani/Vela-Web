@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
+.env.local
+
+# Capture archive: the source for public/work, never served.
+# Holds unreleased client work — see scripts/sync-work-assets.mjs
+captures/

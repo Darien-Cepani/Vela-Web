@@ -54,13 +54,25 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       const reduce = prefersReducedMotion()
       const size = () => Math.min(el.clientWidth, el.clientHeight) || 420
 
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+      // three is WebGL2-only and *throws* when no context can be created —
+      // blocklisted GPUs, disabled WebGL, some remote desktops. Swallow it and
+      // keep the flat SVG, which is a complete state, not a broken one.
+      let renderer: InstanceType<typeof THREE.WebGLRenderer>
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+      } catch {
+        return
+      }
       // quiet ANGLE's X4122 precision warnings about three's own shader constants
       renderer.debug.checkShaderErrors = false
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       renderer.setSize(size(), size())
-      renderer.toneMapping = THREE.ACESFilmicToneMapping
-      renderer.toneMappingExposure = 0.92
+      // ACES rolls clipped channels toward white. On a colour like #00AAD4,
+      // whose green and blue sit high while red sits at zero, that roll-off
+      // desaturates the mark into pastel the moment the key light touches it.
+      // Linear keeps the hue and lets the highlight clip honestly.
+      renderer.toneMapping = THREE.LinearToneMapping
+      renderer.toneMappingExposure = 1
       renderer.shadowMap.enabled = true
       renderer.shadowMap.type = THREE.PCFShadowMap
       el.appendChild(renderer.domElement)
@@ -118,28 +130,33 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       // theme-reactive lighting: re-tuned live when data-theme flips
       // hard key, near-zero fills: unlit faces fall almost to black
       const applyTheme = (mode: string | undefined) => {
+        // Key intensity is the hue's whole budget: past ~1.6 a white key on a
+        // clearcoat surface clips the diffuse and the cyan turns to paper.
+        // The near-zero fills below keep the shadow side as dark as before.
         if (mode === 'light') {
-          renderer.toneMappingExposure = 0.98
-          key.intensity = 2.7
-          key.color.set(0xffffff)
-          hemi.intensity = 0.1
-          hemi.color.set(0xffffff)
-          hemi.groundColor.set(0xa9c6d2)
-          fill.intensity = 0.03
-          fill.color.set(0x7fc8de)
-          rim.intensity = 3
-          material.envMapIntensity = 0.08
-        } else {
+          // on paper the mark has to hold its own against a bright page, so it
+          // runs a shade deeper and leans on the rim rather than raw key power
           renderer.toneMappingExposure = 0.84
-          key.intensity = 2.3
+          key.intensity = 0.82
           key.color.set(0xffffff)
-          hemi.intensity = 0.02
+          hemi.intensity = 0.07
+          hemi.color.set(0xcfe8f2)
+          hemi.groundColor.set(0x1d6d88)
+          fill.intensity = 0.1
+          fill.color.set(0x0a5d79)
+          rim.intensity = 5
+          material.envMapIntensity = 0.05
+        } else {
+          renderer.toneMappingExposure = 0.92
+          key.intensity = 0.98
+          key.color.set(0xffffff)
+          hemi.intensity = 0.05
           hemi.color.set(0x7fc8de)
           hemi.groundColor.set(0x010d13)
-          fill.intensity = 0.03
+          fill.intensity = 0.05
           fill.color.set(0x0e6d8c)
           rim.intensity = 12
-          material.envMapIntensity = 0.03
+          material.envMapIntensity = 0.04
         }
       }
       const themeWatcher = new MutationObserver(() => {
@@ -151,12 +168,16 @@ export function HeroMark3D({ className = '' }: { className?: string }) {
       // extrude the brand mark's SVG paths
       const svg = new SVGLoader().parse(markSvgRaw)
       const material = new THREE.MeshPhysicalMaterial({
-        color: 0x0099c6,
-        metalness: 0.1,
-        roughness: 0.36,
-        clearcoat: 1,
-        clearcoatRoughness: 0.14,
-        envMapIntensity: 0.28,
+        // Brand cyan, and it has to still *be* brand cyan after lighting.
+        // A full clearcoat lays a broad white sheen over every face, which is
+        // what turned this mark pastel; at 0.5 the coat reads as a wet edge
+        // highlight at glancing angles and leaves the flats saturated.
+        color: 0x00aad4,
+        metalness: 0.08,
+        roughness: 0.5,
+        clearcoat: 0.3,
+        clearcoatRoughness: 0.32,
+        envMapIntensity: 0.2,
       })
       const group = new THREE.Group()
       // tessellation scales with display size: the mobile mark is 240px, so

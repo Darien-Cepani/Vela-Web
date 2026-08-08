@@ -98,12 +98,27 @@ export function VoyageLine() {
 
       if (prefersReducedMotion()) return
 
+      // The comet marks where you are *while you are moving*. Parked, it is a
+      // glowing dot sitting on top of whatever paragraph you stopped at, which
+      // is exactly where it is hardest to read around. So it fades out shortly
+      // after the scrolling stops and comes back the moment it resumes.
+      let idle = 0
+      const parkHead = () => {
+        window.clearTimeout(idle)
+        idle = window.setTimeout(() => {
+          head.style.opacity = '0'
+        }, 700)
+      }
+
       const render = () => {
         const p = progress.current.p
         mask.style.strokeDashoffset = String(total * (1 - p))
         const pt = main.getPointAtLength(total * p)
         head.style.transform = `translate(${pt.x}px, ${pt.y}px)`
-        head.style.opacity = p > 0.004 && p < 0.996 ? '1' : '0'
+        const sailing = p > 0.004 && p < 0.996
+        head.style.opacity = sailing ? '1' : '0'
+        if (sailing) parkHead()
+        else window.clearTimeout(idle)
         wrap.current
           ?.querySelectorAll<HTMLElement>('.vl-wp')
           .forEach((wp, i) => wp.classList.toggle('vl-wp-on', p >= (wpFracs.current[i] ?? 2)))
@@ -115,6 +130,7 @@ export function VoyageLine() {
         onUpdate: render,
       })
       render()
+      return () => window.clearTimeout(idle)
     },
     { scope: wrap, dependencies: [box.w, box.h], revertOnUpdate: true },
   )
@@ -170,16 +186,16 @@ export function VoyageLine() {
       {wps.map((wp, i) => (
         <span
           key={i}
-          className="vl-wp absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/50 bg-surface transition-[background-color,border-color,box-shadow] duration-500"
+          className="vl-wp absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/50 bg-surface transition-[background-color,border-color,box-shadow] duration-500"
           style={{ left: wp.x, top: wp.y }}
         />
       ))}
 
       {/* the comet riding the tip of the sailed course */}
-      <div ref={headRef} className="vl-head absolute top-0 left-0 opacity-0 will-change-transform">
+      <div ref={headRef} className="vl-head absolute top-0 left-0 opacity-0 transition-opacity duration-500 will-change-transform">
         <div className="relative flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <span className="absolute h-8 w-8 rounded-full border border-cyan/40 [animation:waypoint-ping_2.8s_ease-out_infinite]" />
-          <span className="block h-2.5 w-2.5 rounded-full bg-[#7FDFF7] shadow-[0_0_16px_6px_rgb(0_170_212/0.5)]" />
+          <span className="block h-2.5 w-2.5 rounded-full bg-[#7FDFF7] shadow-[0_0_10px_3px_rgb(0_170_212/0.35)]" />
         </div>
       </div>
     </div>

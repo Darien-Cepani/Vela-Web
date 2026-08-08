@@ -1,23 +1,29 @@
-import { useRef, type ReactNode, type CSSProperties } from 'react'
+import { type ReactNode, type CSSProperties } from 'react'
+import { useGlare } from './GlareHover'
 
 /**
- * React Bits-style SpotlightCard + BorderGlow: a pointer-tracked radial glow
- * inside the card, and a ring of light on the border that follows the cursor.
- * Position is written straight to CSS vars, never through React state.
+ * React Bits-style SpotlightCard + BorderGlow + GlareHover on one surface:
+ * a pointer-tracked radial glow inside the card, a ring of light on the border
+ * that follows the cursor, and a directional glare that rakes across once as
+ * the pointer arrives. Position is written straight to CSS vars, never through
+ * React state.
  */
 export function Spotlight({
   children,
   className = '',
   style,
   color = 'rgb(0 170 212 / 0.14)',
+  glare = 0.3,
   ...rest
 }: {
   children: ReactNode
   className?: string
   style?: CSSProperties
   color?: string
+  /** strength of the arrival glare; 0 disables it */
+  glare?: number
 } & Record<string, unknown>) {
-  const ref = useRef<HTMLElement>(null)
+  const { ref, onPointerEnter, style: glareStyle } = useGlare(glare)
 
   const onPointerMove = (e: React.PointerEvent) => {
     const el = ref.current
@@ -31,8 +37,9 @@ export function Spotlight({
     <article
       ref={ref as React.RefObject<HTMLElement>}
       onPointerMove={onPointerMove}
-      className={`group relative overflow-hidden ${className}`}
-      style={style}
+      onPointerEnter={glare > 0 ? onPointerEnter : undefined}
+      className={`group relative overflow-hidden ${glare > 0 ? 'glare-host' : ''} ${className}`}
+      style={{ ...style, ...(glare > 0 ? glareStyle : null) }}
       {...rest}
     >
       {/* interior spotlight */}
