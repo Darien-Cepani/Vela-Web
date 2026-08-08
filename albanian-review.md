@@ -1,0 +1,861 @@
+# Albanian review
+
+207 sentences. The English is there for meaning only, not as something to
+translate literally: if the Albanian should say it differently, say it differently.
+
+**Edit the `SQ:` lines only.** Leave `EN:` and the headings alone. When you are
+done, tell me and I will apply the whole file back into the site in one pass.
+
+Anything you are happy with, just leave as it is.
+
+
+## meta
+
+**title**
+EN: Vela Agency · Raise the sails of your business
+SQ: Vela Agency · Ngrini velat e biznesit tuaj
+
+**desc**
+EN: Online stores, a marketplace and advertising. One agency takes you online and keeps you moving.
+SQ: Dyqane online, marketplace dhe reklama. Një agjenci e vetme ju nxjerr online dhe ju mban gjithmonë në lëvizje.
+
+
+## nav
+
+**backToTop**
+EN: Vela, back to top
+SQ: Vela, kthehu në krye të faqes
+
+**lightTheme**
+EN: Switch to light theme
+SQ: Kalo në temën e çelur
+
+**darkTheme**
+EN: Switch to dark theme
+SQ: Kalo në temën e errët
+
+
+## hero
+
+**badge**
+EN: Development & marketing studio
+SQ: Studio zhvillimi & marketingu
+
+**sub**
+EN: Online stores, a marketplace and advertising. One team takes you online and keeps you moving.
+SQ: Dyqane online, marketplace dhe reklama. Një ekip i vetëm ju nxjerr online dhe ju mban gjithmonë në lëvizje.
+
+**k**
+EN: Live in 5 minutes
+SQ: Aktiv për 5 minuta
+
+**v**
+EN: Vela Shop setup
+SQ: Konfigurimi i Vela Shop
+
+**v**
+EN: Zero agency handoffs
+SQ: Pa ndërmjetës, nga fillimi në fund me ne
+
+
+## meaning
+
+**titlePre**
+EN: What does 
+SQ: Çfarë do të thotë 
+
+**manifesto**
+EN: Sails turn wind into direction and momentum for the ship. We do the same with the internet and technology for your business.
+SQ: Velat e kthejnë erën në drejtim dhe vrull për anijen. Ne bëjmë të njëjtën gjë me internetin dhe teknologjinë për biznesin tuaj.
+
+**body**
+EN: Live in days, not quarters.
+SQ: Lançime brenda ditësh, jo tremujorësh.
+
+**body**
+EN: Engineering that carries the weight.
+SQ: Inxhinieri që e mban peshën.
+
+**standardsBody**
+EN: Every line below is checkable on this page, right now.
+SQ: Çdo rresht më poshtë mund të verifikohet në këtë faqe, që tani.
+
+**b**
+EN: The page measures your device and adapts to it.
+SQ: Faqja mat fuqinë e pajisjes suaj dhe përshtat performancën për të.
+
+**t**
+EN: Accessible past the checklist
+SQ: Aksesueshmëri përtej listave të kontrollit
+
+**b**
+EN: Keyboard, contrast and motion, tested by hand.
+SQ: Tastiera, kontrasti dhe lëvizja, të testuara manualisht.
+
+**t**
+EN: Albanian and English as equals
+SQ: Shqipja dhe anglishtja, të barabarta
+
+**b**
+EN: Two addresses, two pages, indexed twice.
+SQ: Dy adresa, dy faqe, të indeksuara dy herë.
+
+**b**
+EN: Scope changes with the budget. The engineering does not.
+SQ: Shtrirja e projektit ndryshon me buxhetin. Inxhinieria jo.
+
+
+## shift
+
+**sub**
+EN: Six services, and what each one actually changes for you.
+SQ: Gjashtë shërbime, dhe çfarë ndryshon realisht secili prej tyre për ju.
+
+**note**
+EN: Orders land at 3am. You pack them at nine.
+SQ: Porositë vijnë në 3 të natës. Ju i paketoni në 9 të mëngjesit.
+
+**claim**
+EN: Be found on search and Maps.
+SQ: Të gjendshëm në kërkime dhe në Maps.
+
+**note**
+EN: Pages built to rank, and a Maps profile filled in properly.
+SQ: Faqe të ndërtuara për t'u renditur lart dhe një profil Maps i plotësuar si duhet.
+
+**claim**
+EN: Look like the business you are.
+SQ: Dukuni si biznesi që jeni në të vërtetë.
+
+**note**
+EN: People judge in seconds. Give them the right seconds.
+SQ: Njerëzit gjykojnë në pak sekonda. Jepuni sekondat e duhura.
+
+**claim**
+EN: Get more from every shoot.
+SQ: Nxirrni më shumë nga çdo set fotografik e xhirim.
+
+**note**
+EN: One set of assets across shop, feed and ads.
+SQ: Një paketë materialesh për dyqanin, feed-in dhe reklamat.
+
+**label**
+EN: Web apps & CMS
+SQ: Aplikacione Web & CMS
+
+**claim**
+EN: Tools that work for you.
+SQ: Mjete që punojnë për ju.
+
+**note**
+EN: The software does the heavy lifting. You make the decisions.
+SQ: Programi bën punën e rëndë. Vendimet i merrni ju.
+
+**label**
+EN: SEO & AI answers
+SQ: SEO & përgjigje nga AI
+
+**claim**
+EN: Be the answer, not a link.
+SQ: Bëhuni përgjigjja, jo thjesht një link.
+
+**note**
+EN: Built so Google and AI assistants can name you when someone asks.
+SQ: Të ndërtuara që Google dhe asistentët e inteligjencës artificiale t’ju përmendin kur dikush kërkon.
+
+
+## products
+
+**sub**
+EN: Same geometry, three colors. Each product covers one leg of the route to selling online.
+SQ: E njëjta gjeometri, tri ngjyra. Secili produkt mbulon një etapë të rrugës drejt shitjes online.
+
+**claim**
+EN: Your shop online. Live in 5 minutes.
+SQ: Dyqani juaj online. Aktiv për 5 minuta.
+
+**body**
+EN: A storefront in your brand, orders and payments in one panel, ready for Instagram and Google.
+SQ: Vitrinë me markën tuaj, porositë dhe pagesat në një panel të vetëm, gati për Instagram dhe Google.
+
+**claim**
+EN: Every Vela Shop, one marketplace.
+SQ: Çdo Vela Shop, në një marketplace të vetëm.
+
+**body**
+EN: The plan ahead: all Vela Shops aggregated into a single online marketplace, bringing new customers to every shop in it.
+SQ: Plani ynë: të gjitha dyqanet Vela Shop bashkohen në një marketplace të vetëm online, duke sjellë klientë të rinj për çdo dyqan.
+
+**claim**
+EN: Ads for every shop.
+SQ: Reklama për çdo dyqan.
+
+**body**
+EN: Also ahead: advertising the shops and the market in partnership with MediaDesk and Impuls, bringing even more customers to Vela Shop users.
+SQ: Gjithashtu në plan: reklamimi i dyqaneve dhe marketplace-it në partneritet me MediaDesk dhe Impuls, për të sjellë edhe më shumë klientë për përdoruesit e Vela Shop.
+
+**cta**
+EN: Talk to us about ads
+SQ: Flisni me ne për reklamat
+
+
+## work
+
+**sub**
+EN: A few we are proud of. Open any one to see how it was thought through, and how it turned out.
+SQ: Disa projekte që na bëjnë krenarë. Hapni secilin për të parë si u konceptua dhe si u realizua.
+
+**seeAll**
+EN: See all {{count}} projects
+SQ: Shikoni të gjitha {{count}} projektet
+
+**indexTitle**
+EN: Everything we have built
+SQ: Gjithçka që kemi ndërtuar
+
+**indexSub**
+EN: Every project we have published, and the decisions behind each one.
+SQ: Çdo projekt që kemi publikuar, bashkë me vendimet prapa tij.
+
+**indexSubTools**
+EN: The full archive. Search it, or filter by what the work involved.
+SQ: Arkivi i plotë. Kërkoni ose filtroni sipas llojit të punës.
+
+**searchPlaceholder**
+EN: Search by name, type or year…
+SQ: Kërkoni sipas emrit, llojit ose vitit…
+
+**emptyBody**
+EN: Try a different word, or drop a filter. If you are looking for something we have not published, just ask.
+SQ: Provoni një fjalë tjetër ose hiqni një filtër. Nëse kërkoni diçka që nuk e kemi publikuar, thjesht na pyesni.
+
+**privateWork**
+EN: In use, not public
+SQ: Në përdorim, jo publik
+
+**notFound**
+EN: That project is not here.
+SQ: Ky projekt nuk gjendet.
+
+**ctaTitle**
+EN: Want something like this?
+SQ: Dëshironi diçka të tillë?
+
+**ctaBody**
+EN: Tell us what you are building. One conversation is enough for us to say what it would take.
+SQ: Na tregoni se çfarë po ndërtoni. Një bisedë mjafton që t’ju themi se çfarë nevojitet.
+
+**kicker**
+EN: In-showroom feedback kiosk
+SQ: Kioskë vlerësimi në sallon
+
+**summary**
+EN: A feedback terminal for the Porsche Albania dealer group (Volkswagen, Audi, Škoda and Seat) that pays customers for their answers in games instead of asking them for a favour.
+SQ: Një terminal vlerësimi për grupin Porsche Albania (Volkswagen, Audi, Škoda dhe Seat) që i shpërblen klientët për përgjigjet e tyre përmes lojërave, në vend që t'u kërkojë një nder.
+
+**brief**
+EN: Dealer feedback has a response-rate problem, not a form problem. An email survey after a service visit gets ignored, and a tablet handed over at the desk earns a polite three-star shrug. The group wanted honest answers from people who had just been served, while they were still on the premises and still had five minutes spare. The real question was not what to ask, it was what the customer gets in return.
+SQ: Feedback-u i koncesionarëve ka problem me shkallën e përgjigjes, jo me formularin. Një anketë me email pas servisit injorohet, ndërsa një tablet i dorëzuar në sportel merr tre yje thjesht nga mirësjellja. Grupi kërkonte përgjigje të ndershme nga njerëzit që sapo kishin marrë shërbim, sa kohë ishin ende aty dhe kishin pesë minuta kohë të lirë. Pyetja e vërtetë nuk ishte çfarë t'i pyesje, por çfarë merrte klienti në këmbim.
+
+**t**
+EN: A name, and nothing else
+SQ: Një emër, dhe asgjë tjetër
+
+**b**
+EN: The kiosk asks for a first name and starts. Every field between a customer and the thing they were promised is a place to give up.
+SQ: Kioska kërkon vetëm një emër dhe nis menjëherë. Çdo fushë shtesë mes klientit dhe asaj që iu premtua është një mundësi për të hequr dorë.
+
+**alt**
+EN: The entry screen: the Porsche Albania wordmark above a single name field.
+SQ: Ekrani i hyrjes: logoja e Porsche Albania mbi një fushë të vetme emri.
+
+**t**
+EN: The survey is the price of entry, and we say so
+SQ: Pyetësori është çmimi i hyrjes, dhe e themi hapur
+
+**b**
+EN: Answering opens the arcade: four games, a points balance, a leaderboard. Saying the exchange plainly is what makes people finish it.
+SQ: Plotësimi i pyetësorit hap lojërat: katër lojëra, bilanci i pikëve dhe tabela e renditjes. Sqarimi i këtij shkëmbimi hapur është pikërisht ajo që i shtyn njerëzit ta përfundojnë.
+
+**alt**
+EN: The survey: two questions (sales or service, then which of the four marques) over the blurred game hub.
+SQ: Pyetësori: dy pyetje (shitje apo servis, më pas cila nga katër markat) mbi sfondin e turbulluar të lojërave.
+
+**t**
+EN: Four games, one shared economy
+SQ: Katër lojëra, një ekonomi e përbashkët
+
+**b**
+EN: Trivia, memory pairs, a sliding puzzle and a lane race, all on one points balance. One game is exhausted in a week; four keep a leaderboard worth climbing.
+SQ: Kuiz, çifte kujtese, puzzle me rrëshitje dhe garë me makina, të gjitha me një bilanc të përbashkët pikësh. Një lojë konsumohet brenda javës; katër lojëra e mbajnë tabelën e renditjes interesante për t'u ngjitur.
+
+**alt**
+EN: The car trivia game: a multiple-choice question with a progress bar, score and lives.
+SQ: Loja e kuizit: pyetje me alternativa, shirit ecurie, pikë dhe jetë.
+
+**t**
+EN: Dressed in the group’s own brands
+SQ: Me pamjen e markave të vetë grupit
+
+**b**
+EN: Every surface carries the marque wordmarks and the showroom’s dark-and-amber palette, down to the card backs. It reads as the dealership’s own screen.
+SQ: Çdo sipërfaqe mban logot e markave dhe paletën e errët me ngjyrë qelibari të sallonit, deri te prapaskena e letrave. Duket si ekrani i vetë koncesionarit.
+
+**alt**
+EN: The memory game: a four-by-four grid of cards backed with the marque wordmark.
+SQ: Loja e kujtesës: një rrjet katër me katër me letra që mbajnë logon e markës.
+
+**t**
+EN: A puzzle cut from the group’s own photography
+SQ: Një puzzle i ndërtuar nga fotografitë e vetë grupit
+
+**b**
+EN: The sliding puzzle is built from the group’s vehicle photography, so the reward for playing is another look at the cars.
+SQ: Puzzle-i me rrëshitje ndërtohet nga fotografitë e automjeteve të grupit, kështu që shpërblimi i lojës është edhe një pamje më shumë e makinave.
+
+**alt**
+EN: The sliding puzzle: image tiles cut from the group’s vehicle photography.
+SQ: Puzzle-i me rrëshitje: pjesëza të prera nga fotografitë e automjeteve të grupit.
+
+**t**
+EN: Built for a screen nobody owns
+SQ: Ndërtuar për një ekran që nuk e zotëron askush
+
+**b**
+EN: A showroom kiosk is used standing up, briefly, by someone who has never seen it. Two large arrows steer, and nothing needs explaining.
+SQ: Kioska e sallonit përdoret në këmbë, për pak sekonda, nga dikush që nuk e ka parë kurrë më parë. Dy shigjeta të mëdha shërbejnë për navigim dhe asgjë nuk ka nevojë për shpjegim.
+
+**alt**
+EN: The racing game: a car on a night road with two large on-screen steering controls.
+SQ: Loja e garës: një makinë në një rrugë natën, me dy kontrolle të mëdha timoni në ekran.
+
+**t**
+EN: The leaderboard is the reason to come back
+SQ: Tabela e renditjes është arsyeja për t’u kthyer
+
+**b**
+EN: Position, player, points, games and date, with the top three marked. It turns a single visit into a running score across the showroom.
+SQ: Pozicioni, lojtari, pikët, lojërat dhe data, ku tre të parët janë të veçuar. Kjo e kthen një vizitë të vetme në një garë të vazhdueshme brenda sallonit.
+
+**alt**
+EN: The leaderboard: a ranked table of players with points, games played and dates.
+SQ: Tabela e renditjes: listë lojtarësh me pikët, lojërat e zhvilluara dhe datat.
+
+**t**
+EN: The numbers, and the ability to change the questions
+SQ: Të dhënat statistikore dhe mundësia për të ndryshuar pyetjet
+
+**b**
+EN: An admin covers responses, a form editor and users, so the group can change what is asked without us. Two questions gate every response: department, then marque.
+SQ: Një panel administrimi mbulon përgjigjet, redaktuesin e formularit dhe përdoruesit, në mënyrë që grupi të ndryshojë pyetjet pa ndihmën tonë. Dy pyetje paraprijnë çdo përgjigje: departamenti, më pas marka.
+
+**summary**
+EN: A dental practice run from one screen: patients, appointments, treatment plans, billing and recalls, with the day’s money and chair time on the front page.
+SQ: Një klinikë dentare e menaxhuar nga një ekran i vetëm: pacientët, takimet, planet e trajtimit, faturimi dhe rikujtesat, me xhiron ditore dhe kohën e karriges në faqen e parë.
+
+**brief**
+EN: Clinics here run on a paper diary, a spreadsheet and a phone. The information exists, but nobody can see the shape of a day until it has already gone wrong: a chair sitting empty, a plan never presented, an invoice nobody chased. The brief was one place that answers “what needs attention today” before anything else.
+SQ: Klinikat këtu punojnë me axhendë letre, fletë Excel-i dhe telefon. Informacioni ekziston, por askush nuk e sheh se si do të shkojë dita derisa gjërat të marrin për keq: një karrige që rri bosh, një plan që nuk u prezantua kurrë, një faturë që nuk u ndoq. Kërkesa ishte një hapësirë e vetme që i përgjigjet pyetjes “çfarë kërkon vëmendje sot” para çdo gjëje tjetër.
+
+**t**
+EN: The day, in five numbers
+SQ: Dita, me pesë numra
+
+**b**
+EN: The dashboard opens on today and nothing else: appointments done and upcoming, chair utilisation against capacity, collected today against yesterday, collected this month against last. A practice owner asks these five questions every morning, so the software answers them before being asked.
+SQ: Paneli hapet me ditën e sotme dhe asgjë tjetër: takimet e kryera e ato të ardhshme, shfrytëzimi i karriges përkundrejt kapacitetit, arkëtimet e sotme kundrejt të djeshmeve, dhe ato të këtij muaji kundrejt muajit të kaluar. Pronari i klinikës i bën këto pesë pyetje çdo mëngjes, ndaj programi u përgjigjet para se të pyetet.
+
+**t**
+EN: A banner for what is slipping
+SQ: Një shirit për ato që po mbeten prapa
+
+**b**
+EN: Above everything sits a single amber line, "83 appointments need attention", with one link to the queue behind it. Notifications that scatter across a product get ignored; one honest count at the top of the page does not.
+SQ: Mbi gjithçka qëndron një rresht me ngjyrë qelibari, “83 takime kërkojnë vëmendje”, me një lidhje drejt radhës. Njoftimet e shpërndara kudo në program injorohen; një numërim i saktë në krye të faqes jo.
+
+**t**
+EN: Patients as a working list, not a database
+SQ: Pacientët si listë pune, jo si bazë të dhënash
+
+**b**
+EN: Search, filters, archive and import across first name, last name, email and phone, with each row flagged New or Returning and carrying its last and next visit. The two things reception actually needs (who is this, when are they back) are on the row rather than one click in.
+SQ: Kërkim, filtra, arkivim dhe importim sipas emrit, mbiemrit, email-it dhe telefonit. Çdo rresht etiketohet 'I ri' ose 'I rikthyer' dhe shfaq vizitën e fundit e të ardhshme. Dy gjërat që i duhen vërtet recepsionit (kush është ky person, kur do të vijë sërish) janë që në rresht, pa pasur nevojë për klikime shtesë.
+
+**t**
+EN: A schedule laid out by chair
+SQ: Orari i ndarë sipas karriges
+
+**b**
+EN: Appointments are a time grid per chair rather than a single agenda column, because a clinic is constrained by chairs, not by hours. Status runs along the top (scheduled, confirmed, in progress, completed, cancelled) so the day is readable in one pass.
+SQ: Takimet paraqiten në një rrjetë kohore për secilën karrige dhe jo si një kolonë e vetme agjende, sepse një klinikë kufizohet nga numri i karrigeve, jo nga orët. Statuset renditen sipas ecurisë (i planifikuar, i konfirmuar, në proces, i përfunduar, i anuluar), në mënyrë që dita të lexohet me një shikim.
+
+**t**
+EN: Treatment plans with money attached
+SQ: Plane trajtimi shoqëruar me koston
+
+**b**
+EN: Plans carry a status pipeline (draft, sent, accepted, rejected, in progress) and a total, so the revenue sitting in unpresented plans is a number on screen instead of an intuition.
+SQ: Planet ndjekin një ecuri statusesh (drafte, dërguar, pranuar, refuzuar, në proces) dhe përmbajnë një shumë totale, në mënyrë që të ardhurat pezull në planet e paprezantuara të jenë një shifër e saktë në ekran dhe jo thjesht një hamendësim.
+
+**t**
+EN: Built for a second location from day one
+SQ: Gati për një pikë të dytë që nga dita e parë
+
+**b**
+EN: Facilities, roles and organisation switching are in the data model rather than bolted on, so opening a second clinic is a setting change and not a migration.
+SQ: Objektet, rolet dhe kalimi nga një organizatë në tjetrën janë të integruara në modelin e të dhënave që në krye të herës. Kështu, hapja e një klinike të dytë kërkon thjesht ndryshimin e një cilësimi dhe jo një migrim të tërë të dhënash.
+
+**summary**
+EN: A marketplace matching Albanian tradespeople with the people who need them: post a job, get offers from verified professionals nearby.
+SQ: Një platformë që lidh mjeshtrat shqiptarë me njerëzit që kanë nevojë për ta: publiko një punë, merr oferta nga profesionistë të verifikuar pranë teje.
+
+**brief**
+EN: Finding a reliable electrician or tiler in Albania happens through Facebook groups and word of mouth, which works until it does not. Both sides lose: a customer cannot tell who is serious, and a good tradesperson cannot be found beyond their own contacts.
+SQ: Gjetja e një elektricisti apo shtruesi pllakash të besueshëm në Shqipëri bëhet kryesisht përmes grupeve në Facebook dhe fjalëve të gojës — diçka që funksionon vetëm deri në njëfarë pike. Të dyja palët humbin: klienti nuk mund të dallojë kush është serioz, ndërsa një mjeshtër i mirë nuk gjendet dot përtej rrethit të tij të njohjeve.
+
+**t**
+EN: The first question is which side you are on
+SQ: Pyetja e parë: në cilën anë jeni
+
+**b**
+EN: Before anything else the app asks whether you are hiring, working, or both. Many tradespeople are also customers, and a marketplace that forces them into two accounts quietly loses half its supply.
+SQ: Mbi të gjitha, aplikacioni pyet nëse po kërkoni punëtor, po ofroni shërbim, apo të dyja. Shumë mjeshtra janë gjithashtu klientë, dhe një platformë që i detyron ata të krijojnë dy llogari të ndryshme humbet në heshtje gjysmën e ofertës së saj.
+
+**t**
+EN: Onboarding that builds a profile worth finding
+SQ: Regjistrim që ndërton një profil që ia vlen ta gjesh
+
+**b**
+EN: The worker path collects trade, years of experience and skills as a guided sequence rather than one long form, a profile that is actually filled in is what makes the search side work at all.
+SQ: Për mjeshtrin, procesi mbledh zanatin, vitet e përvojës dhe aftësitë në mënyrë graduale hap pas hapi, jo përmes një formulari të gjatë. Vetëm një profil i plotësuar saktë bën që motori i kërkimit të funksionojë si duhet.
+
+**t**
+EN: Albanian first, not Albanian later
+SQ: Shqip që në fillim, jo si mendim i dytë
+
+**b**
+EN: The interface is written in Albanian rather than translated into it, down to the onboarding copy, and sign-in accepts a phone number as readily as an email because that is how people here log in.
+SQ: Ndërfaqja është shkruar drejtpërdrejt në shqip dhe jo e përkthyer, përfshirë tekstet e regjistrimit. Identifikimi pranon numrin e telefonit po aq lehtë sa email-in, sepse kështu kryhet hyrja nga njerëzit këtu.
+
+**t**
+EN: One codebase, three platforms
+SQ: Një kod, tri platforma
+
+**b**
+EN: Wrapped for iOS and Android with Capacitor alongside the web build, so the phone app is the same product rather than a port that drifts behind it.
+SQ: I paketuar për iOS dhe Android përmes Capacitor krahas versionit web, në mënyrë që aplikacioni celular të jetë fiks i njëjti produkt dhe jo një version i dobësuar që mbetet prapa.
+
+**summary**
+EN: A bilingual site for an Albanian lager, built so the product is never off the screen, and so the brand survives the legal screen every alcohol site has to show first.
+SQ: Një faqe dygjuhëshe për një birrë blonde shqiptare, e ndërtuar në mënyrë që produkti të mos dalë kurrë nga ekrani dhe marka t'i mbijetojë verifikimit ligjor që çdo faqe alkooli duhet të shfaqë në fillim.
+
+**brief**
+EN: VATAN had packaging, photography and drone footage of the places the brand is named for, and nowhere to put any of it. Beer sites tend to fail in one of two ways: they become a photo gallery with no product in them, or they bolt a grey age-verification box onto the front and lose the visitor before the brand has said a word. The brief was a site where the can is always present, the country is the backdrop, and both languages are first-class.
+SQ: VATAN kishte paketimin, fotot dhe pamjet me dron nga vendet me të cilat lidhet emri, por s'kishte ku t'i paraqiste. Faqet e birrës dështojnë zakonisht në dy mënyra: ose shndërrohen në një galeri fotosh pa produktin në to, ose vendosin një dritare gri verifikimi moshe përpara duke e humbur vizitorin pa thënë ende asnjë fjalë. Kërkesa ishte një faqe ku kanaçja është gjithmonë e pranishme, vendi shërben si sfond, dhe të dyja gjuhët trajtohen me të njëjtën rëndësi.
+
+**t**
+EN: The age gate is the first impression, so we designed it
+SQ: Verifikimi i moshës është përshtypja e parë, ndaj e dizajnuam
+
+**b**
+EN: Every alcohol site has to ask, and most ask with what looks like a system dialog. This one asks in the brand serif, takes keyboard focus, and asks once.
+SQ: Çdo faqe alkooli duhet ta bëjë këtë pyetje, por shumica përdorin dritare të thjeshta sistemi. Faqja jonë pyet me shkrimin serif të vetë markës, merr fokusin e tastierës dhe pyet vetëm një herë.
+
+**alt**
+EN: The VATAN age gate: the wordmark, “A keni mbushur 18 vjeç?”, and gold confirm and decline buttons over the blurred site.
+SQ: Verifikimi i moshës i VATAN: logoja, “A keni mbushur 18 vjeç?”, dhe butonat e artë të konfirmimit dhe refuzimit mbi faqen e turbulluar.
+
+**t**
+EN: The can never leaves the screen
+SQ: Kanaçja nuk del kurrë nga ekrani
+
+**b**
+EN: The hero holds the can at full height against aerial footage of the country. The palette comes off the packaging, so the site cannot drift from the label.
+SQ: Seksioni kryesor e shfaq kanaçen në madhësi të plotë përballë pamjeve ajrore të natyrës. Ngjyrat janë marrë direkt nga paketimi, në mënyrë që faqja të ruajë besnikërinë ndaj etiketës.
+
+**alt**
+EN: The VATAN hero: the can at full height over aerial footage of a hillside town.
+SQ: Seksioni kryesor i VATAN: kanaçja në lartësi të plotë mbi pamjet ajrore të një qyteti kodrinor.
+
+**t**
+EN: One sentence that finishes itself three ways
+SQ: Një fjali që mbaron në tri mënyra
+
+**b**
+EN: The headline completes in rotation: culture, heritage, spirit. Vatan means homeland, so the line is doing the brand’s work rather than decorating it.
+SQ: Titulli plotësohet me radhë: kulturë, trashëgimi, shpirt. Vatan do të thotë atdhe, ndaj fjalia kryen punën e markës dhe nuk shërben thjesht si zbukurim.
+
+**alt**
+EN: The hero headline completing with a different final line.
+SQ: Titulli kryesor që mbyllet me një variant tjetër përfundimtar.
+
+**t**
+EN: The story, told against the product
+SQ: Historia, e treguar përballë produktit
+
+**b**
+EN: The history section keeps the can in frame and sets the copy beside it. Given the same weight as the hero, it reads as brand rather than obligation.
+SQ: Seksioni i historisë e mban kanaçen gjithmonë në kuadër duke e vendosur tekstin pranë saj. Duke pasur të njëjtën peshë vizuale si seksioni kryesor, ai transmeton identitetin e markës dhe nuk duket si një detyrim.
+
+**alt**
+EN: The “Historia jonë” section: gold heading and body copy set beside the can.
+SQ: Seksioni “Historia jonë”: titull i artë dhe tekst pranë kanaçes.
+
+**t**
+EN: The numbers a drinker actually asks for
+SQ: Të dhënat që i interesojnë vërtet një konsumatori
+
+**b**
+EN: Strength, volume, calories and bitterness, as a grid in the brand’s own type. Laid out like this it reads as confidence rather than fine print.
+SQ: Përmbajtja e alkoolit, vëllimi, kaloritë dhe hidhësia (IBU), të renditura në një rrjetë me tipografinë e markës. Të paraqitura kështu, ato shprehin vetëbesim dhe nuk duken si shkrime të imëta në fund të faqeve.
+
+**alt**
+EN: The specification grid: 4.0%, 500ml, 195 kcal and 18 IBU.
+SQ: Rrjeta e specifikimeve: 4.0%, 500ml, 195 kcal dhe 18 IBU.
+
+**b**
+EN: A lager is bought for a moment, not a flavour note, so the moments are photographed and cut as cards. A new occasion is a new card, added by the client.
+SQ: Birra blihet për të shijuar momentin dhe jo për shënimet e shijes, ndaj këto momente fotografohen dhe paraqiten si karta vizuale. Çdo rast i ri është një kartë e re që mund të shtohet nga vetë klienti.
+
+**alt**
+EN: The moments section, “Vatan është për momentet që vlejnë”, with three photographic cards.
+SQ: Seksioni i momenteve, “Vatan është për momentet që vlejnë”, me tri karta fotografike.
+
+**t**
+EN: A CMS the size of the site, and no larger
+SQ: Një CMS sa faqja, jo më i madh
+
+**b**
+EN: The client edits the moments, the story and the product details through a small admin built for exactly those. Scoping the tool to the content keeps it usable.
+SQ: Klienti redakton momentet, historinë dhe detajet e produktit përmes një paneli administrimi të thjeshtë, të ndërtuar posaçërisht për to. Përshtatja e mjetit saktësisht me përmbajtjen e mban atë lehtësisht të përdorshëm.
+
+**kicker**
+EN: Five themed shops, one system
+SQ: Pesë dyqane me tema të ndryshme, një sistem i vetëm
+
+**summary**
+EN: Five florist storefronts (Bela, Doris, Ellie’s, La Petit Fleur and Mama Flowers) built from one themeable system, so each shop keeps its own identity without a rebuild.
+SQ: Pesë vitrina luleshitëse (Bela, Doris, Ellie’s, La Petit Fleur dhe Mama Flowers) të ndërtuara mbi një sistem të vetëm me tema adaptuese, në mënyrë që secili dyqan të ruajë identitetin e vet pa pasur nevojë për rinovim kodi.
+
+**brief**
+EN: Five flower shops need the same things: bouquets, roses, made-to-order arrangements, weddings and events, ordering in Albanian. What they cannot share is a look. Building five sites from scratch spends the budget on the same work five times; building one template five times over spends the brand.
+SQ: Pesë dyqane lulesh kanë nevojë për të njëjtat gjëra: buqeta, trëndafila, kompozime sipas kërkesës, dasma e ngjarje, si dhe porositje në shqip. Ajo që nuk mund të jetë e njëjtë është pamja e tyre. Ndërtimi i pesë faqeve nga e para do të harxhonte buxhetin për të njëjtën punë pesë herë; ndërsa përdorimi i të njëjtit shabllon pesë herë do të zbehte identitetin e markës.
+
+**t**
+EN: One system, five identities
+SQ: Një sistem, pesë identitete
+
+**b**
+EN: Bela, Doris, Ellie’s, La Petit Fleur and Mama Flowers share layout, product structure and ordering flow, and share nothing else. Palette, typography and photography are per shop, so no two storefronts read as the same business.
+SQ: Bela, Doris, Ellie’s, La Petit Fleur dhe Mama Flowers ndajnë pamjen e përgjithshme, strukturën e produkteve dhe rrjedhën e porosisë, por asgjë tjetër. Paleta e ngjyrave, tipografia dhe fotot janë unike për çdo dyqan, kështu që asnjë nga dyqanet nuk duket si i njëjti biznes.
+
+**t**
+EN: Occasion-led, because that is how flowers sell
+SQ: Të organizuara sipas rastit, sepse kështu shiten lulet
+
+**b**
+EN: Weddings and events get their own route rather than a category buried in a menu, since that is the order worth the most and the one people plan furthest ahead.
+SQ: Dasmat dhe ngjarjet e veçanta kanë një seksion të dedikuar dhe jo thjesht një kategori të fshehur në menu, sepse ato përfaqësojnë porositë më me vlerë dhe me planifikimin më të gjatë.
+
+**t**
+EN: Albanian copy, Tirana delivery
+SQ: Tekst në shqip, dërgesa në Tiranë
+
+**b**
+EN: Written in Albanian for buyers in Tirana, with same-day handmade arrangements stated up front rather than hidden in a shipping page.
+SQ: E shkruar në shqip për blerësit në Tiranë, ku mundësia e kompozimeve artizanale brenda ditës tregohet që në fillim dhe jo e fshehur në faqen e dërgesave.
+
+**t**
+EN: The sixth shop is a configuration
+SQ: Dyqani i gjashtë është thjesht një konfigurim
+
+**b**
+EN: Because the system is the deliverable rather than the site, adding another florist is a theme and a product import. The cost of the next one is a fraction of the first.
+SQ: Meqenëse produkti përfundimtar është vetë sistemi dhe jo thjesht një faqe, shtimi i një dyqani tjetër lulesh kërkon vetëm zgjedhjen e një teme dhe importimin e produkteve. Caktimi i dyqanit të radhës kushton vetëm një pjesë të vogël të të parit.
+
+**summary**
+EN: A site for Do Digital Media that argues its own case (positioning, a full service range and honest terms) in a category where every competitor claims exactly the same things.
+SQ: Një faqe për Do Digital Media që mbron vetvetiu argumentet e saj (pozicionimin, gamën e plotë të shërbimeve dhe kushtet e ndershme) në një industri ku çdo konkurrent pretendon fiks të njëjtat gjëra.
+
+**brief**
+EN: An agency site has the hardest brief in its own category: every claim on it is a claim the competition also makes. DDM was new as well, which most studios try to hide. We built the site around the two things that were both true and actually differentiating: a service range wide enough to be a single supplier, and the kind of attention a new studio can give that a busy one cannot.
+SQ: Faqja e një agjencie ka kërkesën më të vështirë në kategorinë e vet: çdo premtim që bën ajo është një premtim që e bën edhe konkurrenti. DDM ishte gjithashtu një studio e re — diçka që shumica e agjencive mundohen ta fshehin. Ne e ndërtuam faqen rreth dy pikave që ishin plotësisht të vërteta dhe vërtet diferencuese: një gamë shërbimesh aq e gjerë sa për të qenë furnizuesi i vetëm, si dhe niveli i përkujdesit që mund të japë vetëm një studio e re.
+
+**t**
+EN: A promise, not a description
+SQ: Një premtim, jo një përshkrim
+
+**b**
+EN: “Brande të ndërtuara për të dominuar” at display size, with the offer in two sentences under it and the objection answered before it is raised.
+SQ: “Marka të ndërtuara për të dominuar” në madhësi kryesore, me ofertën të përmbledhur në dy fjali më poshtë dhe zgjidhjen e dilemave para se ato të lindin.
+
+**alt**
+EN: The DDM hero: “Brande të ndërtuara për të dominuar.” in large serif type on cream.
+SQ: Seksioni kryesor i DDM: “Marka të ndërtuara për të dominuar.” me shkrim të madh serif mbi sfond krem.
+
+**t**
+EN: Cream and lime, because the category is navy and grey
+SQ: Krem dhe jeshile limoni, sepse kategoria përdor blunë e errët dhe grinë
+
+**b**
+EN: Albanian agency sites are navy with a stock laptop. For an agency the site is the sample, so the palette is itself part of the argument.
+SQ: Faqet e agjencive shqiptare janë zakonisht blu e errët me ndonjë foto laptopi nga interneti. Për një agjenci, faqja është vetë mostra e punës, prandaj edhe paleta e ngjyrave është pjesë e argumentit.
+
+**alt**
+EN: The hero with its subhead and both calls to action, showing the cream and lime palette.
+SQ: Seksioni kryesor me nëntitullin dhe dy butonat e veprimit, ku shfaqet paleta krem dhe jeshile limoni.
+
+**t**
+EN: Name the pain before the service
+SQ: Emërto problemin para shërbimit
+
+**b**
+EN: Before a single service is listed, the page names three specific headaches: slow sites, chasing suppliers, advertising that returns nothing.
+SQ: Përpara se të renditet as edhe një shërbim i vetëm, faqja përmend tre shqetësime konkrete: faqet e ngadalta, ndjekja e furnitorëve dhe reklamat pa asnjë kthim investimi.
+
+**alt**
+EN: The section “Të bësh biznes është plot dhimbje koke.” with three pain-point cards.
+SQ: Seksioni “Të bësh biznes është plot dhimbje koke.” me tri karta problemesh.
+
+**t**
+EN: The whole range on one screen
+SQ: E gjithë gama në një ekran
+
+**b**
+EN: Sixteen services as a plain grid with a sentence each. The claim is “under one roof”, and a grid this dense proves it where a paragraph cannot.
+SQ: Gjashtëmbëdhjetë shërbime të paraqitura në një rrjetë të thjeshtë me nga një fjali secili. Premtimi është “gjithçka nën një çati”, dhe një paraqitje kaq e ngjeshur e vërteton këtë më mirë se çdo paragraf.
+
+**alt**
+EN: The services grid: sixteen services in four columns, each with a one-line description.
+SQ: Rrjeta e shërbimeve: gjashtëmbëdhjetë shërbime në katër kolona, secili me një përshkrim prej një rreshti.
+
+**t**
+EN: New studio, stated as the advantage
+SQ: Studio e re, e paraqitur si përparësi
+
+**b**
+EN: The page says DDM is new, then says what that buys: fixed dates, a transparent price, one person to talk to. Hiding a young studio is a losing game.
+SQ: Faqja tregon hapur se DDM është e re, por sqaron se çfarë përfiton klienti nga kjo: afate fikse, çmime transparente dhe një pikë të vetme kontakti. Të fshehësh faktin se je një studio e re është një betejë e humbur.
+
+**alt**
+EN: The section “Studio e re. Vëmendje e plotë.” with fixed deadlines, transparent pricing and a single point of contact.
+SQ: Seksioni “Studio e re. Vëmendje e plotë.” me afate fikse, çmime transparente dhe një pikë të vetme kontakti.
+
+**t**
+EN: A guarantee that costs something
+SQ: Një garanci që ka vërtet pesë
+
+**b**
+EN: Not happy with the design? We remake it until you are. A guarantee only counts if honouring it hurts, and this one spends the studio’s own time.
+SQ: Nuk jeni i kënaqur me dizajnin? E ribëjmë nga e para derisa të jeni. Një garanci ka vlerë vetëm nëse zbatimi i saj ka një kosto, dhe kjo garanci shpenzon kohën e vetë studios.
+
+**alt**
+EN: The design guarantee: “Nuk je i kënaqur me dizajnin? E ribëjmë derisa të jesh.”
+SQ: Garancia e dizajnit: “Nuk jeni i kënaqur me dizajnin? E ribëjmë derisa të jeni.”
+
+**summary**
+EN: Our own product: an online shop that fills itself from Instagram. Posts become products with stock, categories and filters, and every order lands in one panel.
+SQ: Produkti ynë: një dyqan online që mbushet automatikisht nga Instagrami. Postimet shndërrohen në produkte me stok, kategori dhe filtra, ndërsa çdo porosi mblidhet në një panel të vetëm.
+
+**brief**
+EN: Albanian businesses do not avoid online shops because shops are hard to build. They avoid them because they cost money every month and someone has to feed them: adding products, fixing stock, answering where-is-my-order. Meanwhile the market is moving to card payment and ordering without a phone call. So the brief was not a cheaper shop. It was a shop that keeps itself up to date.
+SQ: Bizneset shqiptare nuk u shmangen dyqaneve online pse janë të vështira për t'u ndërtuar. U shmangen sepse kanë kosto mujore dhe kërkojnë mirëmbajtje të vazhdueshme: shtim produktesh, rregullim stoku dhe përgjigje për të njëjtat pyetje dyzet herë në javë. Ndërkohë, tregu po zhvendoset drejt pagesave me kartë dhe porosive pa telefonata. Kështu që kërkesa nuk ishte për një dyqan më të lirë, por për një dyqan që përditësohet vetvetiu.
+
+**b**
+EN: A shop is not expensive to open. It is expensive to keep: products to add, stock to correct, the same question answered forty times a week.
+SQ: Hapja e një dyqani nuk është e shtrenjtë. E shtrenjtë është mirëmbajtja e tij: produkte për të shtuar, stok për të azhurnuar dhe e njëjta pyetje e përsëritur dyzet herë në javë.
+
+**alt**
+EN: The Vela Shop landing page, opening on the seller’s problem rather than a feature list.
+SQ: Faqja kryesore e Vela Shop, e cila nis me problemin e shitësit dhe jo me një listë funksionalitetesh.
+
+**t**
+EN: The mark is the agency mark, turned
+SQ: Simboli është simboli i agjencisë, i rrotulluar
+
+**b**
+EN: The same boat as the studio mark, warmed to red. A family resemblance rather than a copy, so both can sit on one page.
+SQ: E njëjta varkë si në simbolin e studios, por me ton më të ngrohtë të së kuqes. Një ngjashmëri organike dhe jo një kopjim, në mënyrë që të dyja të bashkëjetojnë në të njëjtën faqe.
+
+**alt**
+EN: The Vela Shop mark: the studio boat in warm red.
+SQ: Simboli i Vela Shop: varka e studios në të kuqe të ngrohtë.
+
+**t**
+EN: A palette with one job each
+SQ: Një paletë ku secila ngjyrë ka një rol
+
+**b**
+EN: Red is every action a seller takes. Amber is anything that needs them. Nothing else competes, so the panel reads at a glance.
+SQ: Ngjyra e kuqe përfaqëson çdo veprim të shitësit. Ngjyra qelibar shënjon çdo gjë që kërkon vëmendjen e tij. Asnjë ngjyrë tjetër nuk krijon shpërqendrim, kështu që paneli lexohet me një shikim.
+
+**alt**
+EN: The Vela Shop palette: red for action, amber for attention, ink and paper for everything else.
+SQ: Paleta e Vela Shop: e kuqe për veprimin, qelibar për vëmendjen, bojë dhe letër për gjithçka tjetër.
+
+**t**
+EN: The way in is one screen
+SQ: Hyrja është vetëm një ekran
+
+**b**
+EN: An account, and the shop is open. No plan to choose, no card, no seven-step wizard between a seller and their first product.
+SQ: Mjafton një llogari dhe dyqani është hapur. Pa pasur nevojë të zgjidhni plane, pa karta bankare dhe pa procese me shtatë hapa mes shitësit dhe produktit të tij të parë.
+
+**alt**
+EN: The Vela Shop sign-up: one screen between a seller and their shop.
+SQ: Regjistrimi në Vela Shop: vetëm një ekran mes shitësit dhe dyqanit të tij.
+
+**t**
+EN: The panel answers one question first
+SQ: Paneli i përgjigjet pyetjes kryesore të parës
+
+**b**
+EN: It opens on money: revenue, orders, best sellers, in that order. A seller checks a shop the way a shopkeeper checks a till.
+SQ: Ai hapet me anën financiare: xhiroja, porositë dhe produktet më të shitura, me atë radhë. Një shitës e kontrollon dyqanin online ashtu siç kontrollon tregtari arkën e tij.
+
+**alt**
+EN: The Vela Shop panel on opening: revenue, orders and top sellers.
+SQ: Paneli i Vela Shop në hapje: xhiroja, porositë dhe produktet më të shitura.
+
+**t**
+EN: The catalogue reads Instagram
+SQ: Katalogu sinkronizohet me Instagramin
+
+**b**
+EN: This is the product. Posts become products automatically, with price, stock, categories and filters attached, so the catalogue keeps itself current as the seller keeps posting.
+SQ: Kjo është pika kryesore. Postimet kthehen automatikisht në produkte, së bashku me çmimin, stokun, kategoritë dhe filtrat. Kështu, katalogu përditësohet vetvetiu sa herë që shitësi bën një postim të ri.
+
+**alt**
+EN: The Vela Shop catalogue, with products built from existing Instagram posts.
+SQ: Katalogu i Vela Shop, me produkte të ndërtuara nga postimet ekzistuese në Instagram.
+
+**t**
+EN: The storefront is the actual deliverable
+SQ: Dyqani është ai që dorëzohet vërtet
+
+**b**
+EN: Card payment, a real cart, and ordering without a phone call. That is where the Albanian market is going, and a shop that cannot take an order that way is a catalogue.
+SQ: Pagesa me kartë, një shportë reale blerjesh dhe porosi pa pasur nevojë për telefonata. Drejt kësaj po shkon tregu shqiptar, dhe një dyqan që nuk e pranon një porosi në këtë mënyrë mbetet thjesht një katalog.
+
+**alt**
+EN: The Vela Shop storefront as a customer sees it, in Albanian.
+SQ: Vitrina e Vela Shop siç e sheh klienti, në shqip.
+
+**summary**
+EN: Our own site: the one project where we are both the studio and the client, so every decision on it is a statement about how we work.
+SQ: Faqja jonë e internetit: i vetmi projekt ku jemi njëkohësisht studio dhe klient, ndaj çdo vendim i marrë këtu është një dëshmi e mënyrës se si punojmë.
+
+**brief**
+EN: An agency site is judged by the thing it is, not the things it says. Ours had to open in a market where most studios ship a template and a stock photo, argue for standards nobody here is arguing for, and do it in two languages without either reading as the translation. It also had to run properly on the phones people in Albania actually carry, which is the part most agency sites quietly fail.
+SQ: Faqja e një agjencie gjykohet nga ajo që përmban dhe paraqet, jo nga fjalët që thotë. Faqja jonë duhej të hynte në një treg ku shumica e studiove përdorin shabllone dhe foto nga interneti, të mbronte standarde që pak kush i aplikon këtu, si dhe ta bënte këtë në dy gjuhë pa e bërë asnjërën të duket si përkthim. Gjithashtu, ajo duhej të funksiononte shkëlqyeshëm në telefonat celularë që njerëzit përdorin realisht në Shqipëri — pikërisht aty ku shumica e faqeve të agjencive dështojnë në heshtje.
+
+**b**
+EN: The first screen names what we sell. Atmosphere earns attention, but it does not answer the question the visitor arrived with.
+SQ: Ekrani i parë tregon qartë se çfarë ofrojmë. Atmosfera mund të tërheqë vëmendjen, por ajo nuk i përgjigjet pyetjes me të cilën vizitori erdhi në faqe.
+
+**alt**
+EN: The vela.al hero, naming the offer above an animated sea.
+SQ: Seksioni kryesor i vela.al, që shfaq ofertën mbi një det të animuar.
+
+**t**
+EN: A mark that has to work at sixteen pixels
+SQ: Një ikonë që duhet të funksionojë edhe në 16 pikselë
+
+**b**
+EN: A boat in two shapes: a small sail above, a hull with a V cut out below. Drawn at favicon size and scaled up, because small is where a mark fails.
+SQ: Një varkë e ndërtuar me dy forma: një velë e vogël sipër dhe trupi i varkës me një prerje 'V' poshtë. E konceptuar fillimisht në madhësinë e një favicon-i e më pas e zmadhuar, sepse provimi i vërtetë i një ikone bëhet në madhësi minimale.
+
+**alt**
+EN: The Vela mark: a small sail above a hull with a V-shaped cutout.
+SQ: Simboli i Vela: një velë e vogël mbi trupin e varkës me prerje në formë V.
+
+**t**
+EN: One signal colour, and the sea it points across
+SQ: Një ngjyrë sinjali dhe deti që ajo përshkon
+
+**b**
+EN: One cyan does every piece of pointing on the site. A palette where four colours all say “look here” cannot say it at all.
+SQ: Një nuancë e vetme cian (blu e çelur) përdoret për të gjitha orientimet në faqe. Një paletë ku katër ngjyra të ndryshme bërtasin “shiko këtu”, në fakt nuk arrin të tërheqë vëmendjen në asnjë vend.
+
+**alt**
+EN: The vela.al palette: one cyan signal against three depths of sea.
+SQ: Paleta e vela.al: një ngjyrë sinjalizuese cian përballë tri thellësive të detit.
+
+**t**
+EN: The name is the argument
+SQ: Emri është vetë argumenti
+
+**b**
+EN: Vela is the sail: the part of a ship that turns weather into direction and momentum for the ship. We split it into the two things we sell, course and hull.
+SQ: Vela është pjesa e anijes që e kthen erën në drejtim dhe lëvizje. Ne e ndamë atë në dy elementet që ofrojmë: kursin e lundrimit dhe trupin e anijes.
+
+**alt**
+EN: The section explaining what Vela means, split into course and hull.
+SQ: Seksioni që shpjegon kuptimin e emrit Vela, i ndarë në kurs lundrimi dhe trup anijeje.
+
+**t**
+EN: Six claims, six drawings
+SQ: Gjashtë premtime, gjashtë ilustrime
+
+**b**
+EN: Each argument is drawn rather than described: a clock that runs, a pin that finds itself, one photograph cropped three ways.
+SQ: Çdo argument ilustrohet vizualisht në vend që thjesht të përshkruhet: një orë që ecën, një pikë në hartë që gjen vendndodhjen, apo një fotografi e prerë në tri mënyra të ndryshme.
+
+**alt**
+EN: The difference section: six cards, each with its own animated diagram.
+SQ: Seksioni i veçorive: gjashtë karta, secila me diagramin e vet të animuar.
+
+**t**
+EN: The process, with the boring parts left in
+SQ: Procesi i punës, përfshirë edhe detajet e imëta
+
+**b**
+EN: Discover, Design, Build, Sail, each with what we need from you at that point. A first-time buyer can see the whole engagement before writing.
+SQ: Discover, Design, Build, Sail — secili hap sqaron atë që na nevojitet nga ju në atë fazë. Një klient potencial mund të shohë të gjithë ecurinë e bashkëpunimit përpara se të na kontaktojë.
+
+**alt**
+EN: The process section: four steps on a rail, with what each one needs.
+SQ: Seksioni i procesit: katër hapa të radhitur, me kërkesat përkatëse për secilin.
+
+**t**
+EN: The work has to carry it
+SQ: Puna flet vetë
+
+**b**
+EN: Every project opens into its reasoning, its screens and a film of it running. A portfolio that shows the work beats a page that describes it.
+SQ: Çdo projekt zbulon logjikën e tij, pamjet e ekranit dhe një video demonstruese. Një portofol që shfaq punën reale është gjithmonë më bindës se një faqe që thjesht e përshkruan atë.
+
+**alt**
+EN: The selected work section, with each project opening into its own case study.
+SQ: Seksioni i punëve të zgjedhura, ku secili projekt hapet në studimin e tij të rastit (case study).
+
+**t**
+EN: Two languages, two addresses
+SQ: Dy gjuhë, dy adresa
+
+**b**
+EN: Albanian and English each have their own URL, page and hreflang, both written rather than translated. A toggle on one address is invisible to search engines.
+SQ: Shqipja dhe anglishtja kanë secila URL-në, faqen dhe etiketën hreflang përkatëse — të dyja të shkruara nga e para dhe jo të përkthyera mekanikisht. Një buton ndërrimi gjuhe në një adresë të vetme mbetet i padukshëm për motorët e kërkimit.
+
+
+## services
+
+**h2pre**
+EN: Everything your business needs 
+SQ: Gjithçka që i nevojitet biznesit tuaj 
+
+**b**
+EN: Payments, stock and orders in one place, from the storefront through to delivery.
+SQ: Pagesat, stoku dhe porositë në një vend të vetëm, nga vitrina deri te dërgesa.
+
+**t**
+EN: Websites & landing pages
+SQ: Uebsajte & landing pages
+
+**b**
+EN: Pages that load fast, rank on Google and turn visitors into customers.
+SQ: Faqe që ngarkohen shpejt, renditen mirë në Google dhe i shndërrojnë vizitorët në klientë.
+
+**b**
+EN: Brand identities, print and campaigns, drawn rather than picked off a template.
+SQ: Identitet marke, materiale printi dhe fushata promovuese, të konceptuara nga e para dhe jo të marra nga shabllonet.
