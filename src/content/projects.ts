@@ -148,10 +148,12 @@ export const PROJECTS: Project[] = [
     slug: 'vela-shop',
     status: 'wip',
     logo: markShop,
-    ink: '22 11 7',
+    /* the product's own wine-red gradient, which deliberately echoes
+       Instagram's without being it */
+    ink: '26 8 16',
     year: '2026',
-    accent: '#FF5C3C',
-    wash: 'radial-gradient(720px 520px at 68% 18%, rgb(255 62 48 / 0.62), transparent 68%), radial-gradient(620px 460px at 98% 88%, rgb(245 158 11 / 0.52), transparent 72%), linear-gradient(150deg,#1a1418,#071E26 78%)',
+    accent: '#C81E3C',
+    wash: 'radial-gradient(720px 520px at 68% 18%, rgb(200 30 60 / 0.58), transparent 68%), radial-gradient(620px 460px at 98% 88%, rgb(250 204 21 / 0.42), transparent 72%), linear-gradient(150deg,#1c0d14,#071E26 78%)',
     mark: markShop,
     cover: { src: '/work/vela-shop.webp', alt: 'The Vela Shop landing page: turn an Instagram feed into a shop.' },
     coverVideo: '/work/vela-shop-film',

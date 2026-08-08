@@ -43,9 +43,9 @@ const FILMS = {
     theme: {
       bg: '#F7F5F2',
       ink: '#14191C',
-      accent: '#E8431F',
+      accent: '#C81E3C',
       light: true,
-      swatches: ['#E8431F', '#F59E0B', '#14191C'],
+      swatches: ['#A31234', '#C81E3C', '#FACC15'],
     },
     en: {
       kicker: 'E-commerce platform',
