@@ -16,7 +16,9 @@ import markWhite from '../assets/brand/mark-white.svg'
  *  prefilled mail draft, so the page always has a working conversion path. */
 const ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT ?? ''
 
-const NEEDS = ['shop', 'website', 'design', 'ads'] as const
+/* 'question' sits last on purpose: it is the catch-all for someone who is
+   not buying yet, and putting it first would invite everyone to pick it. */
+const NEEDS = ['shop', 'website', 'design', 'ads', 'question'] as const
 type Need = (typeof NEEDS)[number]
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 
